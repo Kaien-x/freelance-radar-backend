@@ -25,7 +25,7 @@ app.use('/api/proposals', require('./routes/proposal.routes'));
 app.use('/api/applications', require('./routes/application.routes'));
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
-app.use('/api/check-api', require('./routes/check-api'));
+app.use('/api/check-apis', require('./routes/check-api'));
 
 // Global error handler
 app.use((err, req, res, next) => {
