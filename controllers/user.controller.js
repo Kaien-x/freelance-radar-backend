@@ -48,12 +48,27 @@ const uploadAvatar = asyncHandler(async (req, res) => {
 
   // Delete old avatar if exists
   const currentUser = await User.findById(req.user._id);
-  if (currentUser.avatar && currentUser.avatar.startsWith('/uploads/')) {
-    const oldPath = path.join(process.cwd(), currentUser.avatar);
-    if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+  
+  if (currentUser.avatar) {
+    try {
+      const avatarPath = currentUser.avatar.startsWith('http')
+        ? new URL(currentUser.avatar).pathname
+        : currentUser.avatar;
+
+      if (avatarPath.startsWith('/uploads/')) {
+        const oldPath = path.join(process.cwd(), avatarPath);
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlinkSync(oldPath);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to delete old avatar:', error);
+    }
   }
 
-  const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+  const avatarUrl = `${process.env.BACKEND_URL}/uploads/avatars/${req.file.filename}`;
+
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { avatar: avatarUrl },

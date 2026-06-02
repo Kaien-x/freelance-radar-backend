@@ -91,8 +91,10 @@ const googleAuth = async (req, res) => {
 
     // Process avatar if user exists (newly linked or existing)
     if (user) {
-      if (picture && (!user.avatar || user.avatar.startsWith('http'))) {
+      // Only download avatar if user has no avatar at all
+      if (picture && !user.avatar) {
         const localAvatar = await downloadGoogleAvatar(picture, googleId);
+
         if (localAvatar) {
           user.avatar = localAvatar;
           needsSave = true;
