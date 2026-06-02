@@ -37,7 +37,7 @@ const downloadGoogleAvatar = async (url, googleId) => {
       response.data.pipe(writer);
 
       writer.on('finish', () => {
-        const fileUrl = `${process.env.BACKEND_URL}/uploads/avatars/${filename}`;
+        const fileUrl = `/uploads/avatars/${filename}`;
         resolve(fileUrl);
       });
 

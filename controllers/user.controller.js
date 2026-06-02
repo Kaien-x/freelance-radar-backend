@@ -67,7 +67,7 @@ const uploadAvatar = asyncHandler(async (req, res) => {
     }
   }
 
-  const avatarUrl = `${process.env.BACKEND_URL}/uploads/avatars/${req.file.filename}`;
+  const avatarUrl = `/uploads/avatars/${req.file.filename}`;
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
