@@ -1,6 +1,8 @@
-const axios = require('axios');
-const Job = require('../models/Job.model');
-const logger = require('../utils/logger');
+
+import Parser from 'rss-parser';
+import axios from 'axios';
+import Job from '../models/Job.model.js';
+import logger from '../utils/logger.js';
 
 const REDDIT_COMMUNITIES = [
   'forhire',
@@ -26,55 +28,70 @@ const USER_AGENT =
  * @param {number} limit - Number of posts to fetch (max 100)
  * @returns {Promise<Array>} - Array of extracted job data
  */
-const fetchRedditCommunity = async (subreddit, limit = 50) => {
-  let retries = 3;
 
-  while (retries > 0) {
-    try {
-      console.log('in fetchRedditCommunity');
-      const url = `https://api.reddit.com/r/${subreddit}/new?limit=${limit}`;
 
-      const response = await axios.get(url, {
+const parser = new Parser();
+
+const fetchRedditCommunity = async (subreddit, limit = 25) => {
+  try {
+    logger.info(`Fetching r/${subreddit} via RSS...`);
+
+    const response = await axios.get(
+      `https://www.reddit.com/r/${subreddit}/new/.rss`,
+      {
         headers: {
           'User-Agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0.0.0 Safari/537.36',
-          'Accept': 'application/json',
-          'Accept-Language': 'en-US,en;q=0.9',
+          Accept: 'application/atom+xml,application/xml,text/xml,*/*',
         },
-        timeout: REDDIT_API_TIMEOUT,
-      });
-
-      console.log('====================================');
-      console.log('URL:', url);
-      console.log('Subreddit:', subreddit);
-      console.log('Status:', response.status);
-      console.log('Content-Type:', response.headers['content-type']);
-      console.log('Response:', JSON.stringify(response.data).substring(0, 1000));
-      console.log('====================================');
-
-      if (!response.data?.data?.children) {
-        logger.warn(`No data received from r/${subreddit}`);
-        return [];
+        timeout: 15000,
       }
+    );
 
-      const posts = response.data.data.children.map(item => item.data);
-      return extractJobsFromPosts(posts, subreddit);
-    } catch (error) {
-      retries--;
+    const feed = await parser.parseString(response.data);
 
-      // Don't log port closed errors to console
-      if (!error.message.includes('port closed') && !error.message.includes('ECONNRESET')) {
-        logger.warn(`Failed to fetch Reddit community r/${subreddit} (retries left: ${retries}):`, error.message);
-      }
-
-      if (retries === 0) {
-        logger.error(`Failed to fetch Reddit community r/${subreddit} after 3 attempts`);
-        return [];
-      }
-
-      // Wait before retry (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, (4 - retries) * 2000));
+    if (!feed?.items?.length) {
+      logger.warn(`No RSS items found for r/${subreddit}`);
+      return [];
     }
+
+    const posts = feed.items.slice(0, limit).map(item => ({
+      title: item.title || '',
+      selftext:
+        item.contentSnippet ||
+        item.content ||
+        item.summary ||
+        '',
+      url: item.link || '',
+      author: item.author || 'unknown',
+      created_utc: item.pubDate
+        ? Math.floor(new Date(item.pubDate).getTime() / 1000)
+        : Math.floor(Date.now() / 1000),
+      subreddit,
+      id:
+        item.guid?.split('/').pop() ||
+        item.id ||
+        Math.random().toString(36).slice(2),
+      score: 0,
+      num_comments: 0,
+      thumbnail: null,
+      permalink: item.link
+        ? new URL(item.link).pathname
+        : '',
+    }));
+
+    logger.info(
+      `r/${subreddit}: ${posts.length} RSS posts fetched`
+    );
+
+    return extractJobsFromPosts(posts, subreddit);
+  } catch (error) {
+    logger.error(`r/${subreddit} RSS error`, {
+      message: error.message,
+      status: error.response?.status,
+    });
+
+    return [];
   }
 };
 
@@ -101,7 +118,10 @@ const extractJobsFromPosts = (posts, subreddit) => {
 
       // Detect job type and category from title/description
       const jobType = detectJobType(title, description);
-      const category = detectCategory(title, description);
+      const categories = detectCategory(title, description);
+      const category = Array.isArray(categories)
+        ? categories[0] || 'General'
+        : categories || 'General';
 
       // Extract potential skills from text
       const skills = extractSkills(title, description);
@@ -393,7 +413,7 @@ const detectCategory = (title, description) => {
     };
   }).filter(item => item.score > 0);
 
-  if (scores.length === 0) return ['General'];
+  if (scores.length === 0) return 'General';
 
   // Sort by score descending
   scores.sort((a, b) => b.score - a.score);
@@ -406,7 +426,7 @@ const detectCategory = (title, description) => {
     .slice(0, 2)
     .map(item => item.category);
 
-  return topCategories;
+  return topCategories[0] || 'General';
 };
 
 /**
@@ -657,7 +677,7 @@ const getRedditStats = async () => {
   }
 };
 
-module.exports = {
+export {
   fetchAllRedditJobs,
   getRedditJobs,
   getRedditStats,
