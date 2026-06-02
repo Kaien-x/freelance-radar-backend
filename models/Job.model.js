@@ -20,7 +20,11 @@ const jobSchema = new mongoose.Schema({
     enum: ['entry', 'intermediate', 'expert'],
     default: 'intermediate'
   },
-  category: { type: String, default: 'General' },
+  category: [
+    {
+      type: String,
+    },
+  ],
   location: { type: String, default: 'Remote' },
   status: {
     type: String,
