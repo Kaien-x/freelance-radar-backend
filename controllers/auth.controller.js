@@ -33,8 +33,14 @@ const downloadGoogleAvatar = async (url, googleId) => {
 
     return new Promise((resolve, reject) => {
       const writer = fs.createWriteStream(filepath);
+
       response.data.pipe(writer);
-      writer.on('finish', () => resolve(`/uploads/avatars/${filename}`));
+
+      writer.on('finish', () => {
+        const fileUrl = `${process.env.BACKEND_URL}/uploads/avatars/${filename}`;
+        resolve(fileUrl);
+      });
+
       writer.on('error', reject);
     });
   } catch (err) {
@@ -92,7 +98,7 @@ const googleAuth = async (req, res) => {
           needsSave = true;
         }
       }
-      
+
       if (needsSave) {
         await user.save();
       }
