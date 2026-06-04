@@ -34,7 +34,7 @@ const parser = new Parser();
 
 const fetchRedditCommunity = async (subreddit, limit = 25) => {
   try {
-    logger.info(`Fetching r/${subreddit} via RSS...`);
+    //logger.info(`Fetching r/${subreddit} via RSS...`);
 
     const response = await axios.get(
       `https://www.reddit.com/r/${subreddit}/new/.rss`,
@@ -80,9 +80,9 @@ const fetchRedditCommunity = async (subreddit, limit = 25) => {
         : '',
     }));
 
-    logger.info(
-      `r/${subreddit}: ${posts.length} RSS posts fetched`
-    );
+    //logger.info(
+    //  `r/${subreddit}: ${posts.length} RSS posts fetched`
+    //);
 
     return extractJobsFromPosts(posts, subreddit);
   } catch (error) {
@@ -508,7 +508,7 @@ const fetchAllRedditJobs = async () => {
     // Fetch from all communities sequentially with delays to avoid rate limiting
     for (const subreddit of REDDIT_COMMUNITIES) {
       try {
-        logger.info(`Fetching r/${subreddit}...`);
+        //logger.info(`Fetching r/${subreddit}...`);
         const jobs = await fetchRedditCommunity(subreddit, 50);
 
         if (jobs.length > 0) {

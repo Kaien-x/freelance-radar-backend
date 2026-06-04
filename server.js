@@ -48,7 +48,7 @@ mongoose.connect(process.env.MONGODB_URI)
       initCronJob(cronExpression);
 
       // Run immediately when server starts
-      await triggerSync();
+      //await triggerSync();
 
       logger.info(`Reddit sync cron job initialized: ${cronExpression}`);
     } catch (cronError) {

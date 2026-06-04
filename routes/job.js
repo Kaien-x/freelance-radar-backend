@@ -17,6 +17,7 @@ router.get('/', auth, async (req, res) => {
       parseInt(limit),
       parseInt(offset)
     );
+    const allJobs = await Job.getAllJobs();
 
     // Filter to only include jobs from the past 7 days
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -26,6 +27,7 @@ router.get('/', auth, async (req, res) => {
     });
 
     res.json({
+      allJobs,
       matches: filteredMatches.map(match => ({
         id: match.id,
         job_post: {
