@@ -5935,3 +5935,591 @@
 [2026-06-03T22:45:00.567Z] [INFO] Starting Reddit job sync...
 [2026-06-03T22:45:26.739Z] [INFO] Reddit job sync completed {"startTime":"2026-06-03T22:45:00.568Z","communitiesFetched":11,"totalPostsFetched":55,"newJobsCreated":0,"duplicatesSkipped":54,"errors":[],"endTime":"2026-06-03T22:45:26.737Z","durationMs":26169}
 [2026-06-03T22:45:26.740Z] [INFO] Cron job completed {"startTime":"2026-06-03T22:45:00.568Z","communitiesFetched":11,"totalPostsFetched":55,"newJobsCreated":0,"duplicatesSkipped":54,"errors":[],"endTime":"2026-06-03T22:45:26.737Z","durationMs":26169}
+[2026-06-03T23:42:29.885Z] [INFO] MongoDB connected
+[2026-06-03T23:42:29.890Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-03T23:42:29.891Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-03T23:42:29.904Z] [INFO] Server running on port 8008
+[2026-06-03T23:45:00.868Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-03T23:45:00.870Z] [INFO] Starting Reddit job sync...
+[2026-06-03T23:45:25.897Z] [INFO] Reddit job sync completed {"startTime":"2026-06-03T23:45:00.871Z","communitiesFetched":11,"totalPostsFetched":56,"newJobsCreated":0,"duplicatesSkipped":55,"errors":[],"endTime":"2026-06-03T23:45:25.897Z","durationMs":25026}
+[2026-06-03T23:45:25.899Z] [INFO] Cron job completed {"startTime":"2026-06-03T23:45:00.871Z","communitiesFetched":11,"totalPostsFetched":56,"newJobsCreated":0,"duplicatesSkipped":55,"errors":[],"endTime":"2026-06-03T23:45:25.897Z","durationMs":25026}
+[2026-06-04T13:26:05.989Z] [INFO] MongoDB connected
+[2026-06-04T13:26:05.994Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-04T13:26:05.996Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-04T13:26:06.002Z] [INFO] Server running on port 8008
+[2026-06-04T13:30:00.707Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T13:30:00.709Z] [INFO] Starting Reddit job sync...
+[2026-06-04T13:30:29.794Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T13:30:00.710Z","communitiesFetched":11,"totalPostsFetched":51,"newJobsCreated":0,"duplicatesSkipped":50,"errors":[],"endTime":"2026-06-04T13:30:29.793Z","durationMs":29083}
+[2026-06-04T13:30:29.795Z] [INFO] Cron job completed {"startTime":"2026-06-04T13:30:00.710Z","communitiesFetched":11,"totalPostsFetched":51,"newJobsCreated":0,"duplicatesSkipped":50,"errors":[],"endTime":"2026-06-04T13:30:29.793Z","durationMs":29083}
+[2026-06-04T13:45:00.161Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T13:45:00.163Z] [INFO] Starting Reddit job sync...
+[2026-06-04T13:45:29.924Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T13:45:00.165Z","communitiesFetched":11,"totalPostsFetched":51,"newJobsCreated":0,"duplicatesSkipped":50,"errors":[],"endTime":"2026-06-04T13:45:29.923Z","durationMs":29758}
+[2026-06-04T13:45:29.926Z] [INFO] Cron job completed {"startTime":"2026-06-04T13:45:00.165Z","communitiesFetched":11,"totalPostsFetched":51,"newJobsCreated":0,"duplicatesSkipped":50,"errors":[],"endTime":"2026-06-04T13:45:29.923Z","durationMs":29758}
+[2026-06-04T14:03:02.249Z] [INFO] MongoDB connected
+[2026-06-04T14:03:02.282Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-04T14:03:02.283Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-04T14:03:02.297Z] [INFO] Server running on port 8008
+[2026-06-04T14:15:00.701Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T14:15:00.703Z] [INFO] Starting Reddit job sync...
+[2026-06-04T14:15:29.942Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T14:15:00.703Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-04T14:15:29.941Z","durationMs":29238}
+[2026-06-04T14:15:29.943Z] [INFO] Cron job completed {"startTime":"2026-06-04T14:15:00.703Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-04T14:15:29.941Z","durationMs":29238}
+[2026-06-04T14:30:00.268Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T14:30:00.271Z] [INFO] Starting Reddit job sync...
+[2026-06-04T14:30:26.263Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T14:30:00.271Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T14:30:26.263Z","durationMs":25992}
+[2026-06-04T14:30:26.264Z] [INFO] Cron job completed {"startTime":"2026-06-04T14:30:00.271Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T14:30:26.263Z","durationMs":25992}
+[2026-06-04T14:45:00.194Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T14:45:00.196Z] [INFO] Starting Reddit job sync...
+[2026-06-04T14:45:25.774Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T14:45:00.196Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T14:45:25.774Z","durationMs":25578}
+[2026-06-04T14:45:25.775Z] [INFO] Cron job completed {"startTime":"2026-06-04T14:45:00.196Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T14:45:25.774Z","durationMs":25578}
+[2026-06-04T15:00:00.217Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T15:00:00.218Z] [INFO] Starting Reddit job sync...
+[2026-06-04T15:00:25.855Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T15:00:00.218Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:00:25.854Z","durationMs":25636}
+[2026-06-04T15:00:25.857Z] [INFO] Cron job completed {"startTime":"2026-06-04T15:00:00.218Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:00:25.854Z","durationMs":25636}
+[2026-06-04T15:15:00.381Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T15:15:00.382Z] [INFO] Starting Reddit job sync...
+[2026-06-04T15:15:26.187Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T15:15:00.382Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:15:26.186Z","durationMs":25804}
+[2026-06-04T15:15:26.188Z] [INFO] Cron job completed {"startTime":"2026-06-04T15:15:00.382Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:15:26.186Z","durationMs":25804}
+[2026-06-04T15:30:00.451Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T15:30:00.452Z] [INFO] Starting Reddit job sync...
+[2026-06-04T15:30:26.274Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T15:30:00.453Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:30:26.274Z","durationMs":25821}
+[2026-06-04T15:30:26.275Z] [INFO] Cron job completed {"startTime":"2026-06-04T15:30:00.453Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-04T15:30:26.274Z","durationMs":25821}
+[2026-06-04T15:45:00.620Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T15:45:00.621Z] [INFO] Starting Reddit job sync...
+[2026-06-04T15:45:25.563Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T15:45:00.621Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-04T15:45:25.562Z","durationMs":24941}
+[2026-06-04T15:45:25.563Z] [INFO] Cron job completed {"startTime":"2026-06-04T15:45:00.621Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-04T15:45:25.562Z","durationMs":24941}
+[2026-06-04T16:00:00.680Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T16:00:00.681Z] [INFO] Starting Reddit job sync...
+[2026-06-04T16:00:35.754Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T16:00:00.682Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-04T16:00:35.754Z","durationMs":35072}
+[2026-06-04T16:00:35.755Z] [INFO] Cron job completed {"startTime":"2026-06-04T16:00:00.682Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-04T16:00:35.754Z","durationMs":35072}
+[2026-06-04T16:15:00.687Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T16:15:00.689Z] [INFO] Starting Reddit job sync...
+[2026-06-04T16:15:25.700Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T16:15:00.689Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-04T16:15:25.700Z","durationMs":25011}
+[2026-06-04T16:15:25.702Z] [INFO] Cron job completed {"startTime":"2026-06-04T16:15:00.689Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-04T16:15:25.700Z","durationMs":25011}
+[2026-06-04T16:30:00.767Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T16:30:00.769Z] [INFO] Starting Reddit job sync...
+[2026-06-04T16:30:25.780Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T16:30:00.769Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":44,"errors":[],"endTime":"2026-06-04T16:30:25.780Z","durationMs":25011}
+[2026-06-04T16:30:25.781Z] [INFO] Cron job completed {"startTime":"2026-06-04T16:30:00.769Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":44,"errors":[],"endTime":"2026-06-04T16:30:25.780Z","durationMs":25011}
+[2026-06-04T16:45:00.530Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T16:45:00.531Z] [INFO] Starting Reddit job sync...
+[2026-06-04T16:45:00.538Z] [ERROR] r/forhire RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:01.547Z] [ERROR] r/freelance RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:02.570Z] [ERROR] r/WorkOnline RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:03.588Z] [ERROR] r/RemoteJobs RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:04.606Z] [ERROR] r/remotejs RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:05.622Z] [ERROR] r/webdevjobs RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:17.252Z] [ERROR] r/reactjs RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:18.265Z] [ERROR] r/node RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:19.282Z] [ERROR] r/designjobs RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:20.330Z] [ERROR] r/HireaWriter RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:21.338Z] [ERROR] r/Hiring RSS error {"message":"getaddrinfo ENOTFOUND www.reddit.com"}
+[2026-06-04T16:45:22.348Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T16:45:00.532Z","communitiesFetched":11,"totalPostsFetched":0,"newJobsCreated":0,"duplicatesSkipped":0,"errors":[],"endTime":"2026-06-04T16:45:22.348Z","durationMs":21816}
+[2026-06-04T16:45:22.349Z] [INFO] Cron job completed {"startTime":"2026-06-04T16:45:00.532Z","communitiesFetched":11,"totalPostsFetched":0,"newJobsCreated":0,"duplicatesSkipped":0,"errors":[],"endTime":"2026-06-04T16:45:22.348Z","durationMs":21816}
+[2026-06-04T17:00:00.321Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T17:00:00.322Z] [INFO] Starting Reddit job sync...
+[2026-06-04T17:00:28.482Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T17:00:00.323Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-04T17:00:28.482Z","durationMs":28159}
+[2026-06-04T17:00:28.482Z] [INFO] Cron job completed {"startTime":"2026-06-04T17:00:00.323Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-04T17:00:28.482Z","durationMs":28159}
+[2026-06-04T17:15:00.651Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-04T17:15:00.653Z] [INFO] Starting Reddit job sync...
+[2026-06-04T17:15:26.098Z] [INFO] Reddit job sync completed {"startTime":"2026-06-04T17:15:00.654Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":44,"errors":[],"endTime":"2026-06-04T17:15:26.098Z","durationMs":25444}
+[2026-06-04T17:15:26.099Z] [INFO] Cron job completed {"startTime":"2026-06-04T17:15:00.654Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":44,"errors":[],"endTime":"2026-06-04T17:15:26.098Z","durationMs":25444}
+[2026-06-06T03:11:03.588Z] [INFO] MongoDB connected
+[2026-06-06T03:11:03.628Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T03:11:03.630Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T03:11:03.656Z] [INFO] Server running on port 8008
+[2026-06-06T03:15:00.595Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T03:15:00.598Z] [INFO] Starting Reddit job sync...
+[2026-06-06T03:15:29.910Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T03:15:00.599Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T03:15:29.909Z","durationMs":29310}
+[2026-06-06T03:15:29.912Z] [INFO] Cron job completed {"startTime":"2026-06-06T03:15:00.599Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T03:15:29.909Z","durationMs":29310}
+[2026-06-06T03:34:09.107Z] [INFO] MongoDB connected
+[2026-06-06T03:34:09.142Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T03:34:09.144Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T03:34:09.160Z] [INFO] Server running on port 8008
+[2026-06-06T03:45:00.124Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T03:45:00.127Z] [INFO] Starting Reddit job sync...
+[2026-06-06T03:45:26.659Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T03:45:00.128Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T03:45:26.658Z","durationMs":26530}
+[2026-06-06T03:45:26.660Z] [INFO] Cron job completed {"startTime":"2026-06-06T03:45:00.128Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T03:45:26.658Z","durationMs":26530}
+[2026-06-06T04:00:00.095Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T04:00:00.119Z] [INFO] Starting Reddit job sync...
+[2026-06-06T04:00:45.345Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T04:00:00.120Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:00:45.344Z","durationMs":45224}
+[2026-06-06T04:00:45.369Z] [INFO] Cron job completed {"startTime":"2026-06-06T04:00:00.120Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:00:45.344Z","durationMs":45224}
+[2026-06-06T04:15:00.458Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T04:15:00.481Z] [INFO] Starting Reddit job sync...
+[2026-06-06T04:15:28.712Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T04:15:00.483Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:15:28.711Z","durationMs":28228}
+[2026-06-06T04:15:28.713Z] [INFO] Cron job completed {"startTime":"2026-06-06T04:15:00.483Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:15:28.711Z","durationMs":28228}
+[2026-06-06T04:30:00.882Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T04:30:00.885Z] [INFO] Starting Reddit job sync...
+[2026-06-06T04:30:29.488Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T04:30:00.886Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:30:29.487Z","durationMs":28601}
+[2026-06-06T04:30:29.490Z] [INFO] Cron job completed {"startTime":"2026-06-06T04:30:00.886Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:30:29.487Z","durationMs":28601}
+[2026-06-06T04:45:00.936Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T04:45:00.937Z] [INFO] Starting Reddit job sync...
+[2026-06-06T04:45:26.265Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T04:45:00.938Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:45:26.265Z","durationMs":25327}
+[2026-06-06T04:45:26.266Z] [INFO] Cron job completed {"startTime":"2026-06-06T04:45:00.938Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T04:45:26.265Z","durationMs":25327}
+[2026-06-06T05:00:00.711Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T05:00:00.713Z] [INFO] Starting Reddit job sync...
+[2026-06-06T05:00:29.108Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T05:00:00.714Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T05:00:29.107Z","durationMs":28393}
+[2026-06-06T05:00:29.109Z] [INFO] Cron job completed {"startTime":"2026-06-06T05:00:00.714Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T05:00:29.107Z","durationMs":28393}
+[2026-06-06T05:15:00.065Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T05:15:00.067Z] [INFO] Starting Reddit job sync...
+[2026-06-06T05:15:25.562Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T05:15:00.068Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T05:15:25.562Z","durationMs":25494}
+[2026-06-06T05:15:25.564Z] [INFO] Cron job completed {"startTime":"2026-06-06T05:15:00.068Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T05:15:25.562Z","durationMs":25494}
+[2026-06-06T05:30:00.668Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T05:30:00.672Z] [INFO] Starting Reddit job sync...
+[2026-06-06T05:30:25.547Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T05:30:00.674Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T05:30:25.546Z","durationMs":24872}
+[2026-06-06T05:30:25.548Z] [INFO] Cron job completed {"startTime":"2026-06-06T05:30:00.674Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T05:30:25.546Z","durationMs":24872}
+[2026-06-06T05:45:00.057Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T05:45:00.063Z] [INFO] Starting Reddit job sync...
+[2026-06-06T05:45:25.297Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T05:45:00.063Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T05:45:25.297Z","durationMs":25234}
+[2026-06-06T05:45:25.299Z] [INFO] Cron job completed {"startTime":"2026-06-06T05:45:00.063Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T05:45:25.297Z","durationMs":25234}
+[2026-06-06T06:00:00.842Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T06:00:00.849Z] [INFO] Starting Reddit job sync...
+[2026-06-06T06:00:36.257Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T06:00:00.849Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:00:36.256Z","durationMs":35407}
+[2026-06-06T06:00:36.258Z] [INFO] Cron job completed {"startTime":"2026-06-06T06:00:00.849Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:00:36.256Z","durationMs":35407}
+[2026-06-06T06:15:00.392Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T06:15:00.404Z] [INFO] Starting Reddit job sync...
+[2026-06-06T06:15:27.202Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T06:15:00.404Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:15:27.201Z","durationMs":26797}
+[2026-06-06T06:15:27.205Z] [INFO] Cron job completed {"startTime":"2026-06-06T06:15:00.404Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:15:27.201Z","durationMs":26797}
+[2026-06-06T06:30:00.140Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T06:30:00.147Z] [INFO] Starting Reddit job sync...
+[2026-06-06T06:30:27.468Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T06:30:00.148Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:30:27.467Z","durationMs":27319}
+[2026-06-06T06:30:27.469Z] [INFO] Cron job completed {"startTime":"2026-06-06T06:30:00.148Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:30:27.467Z","durationMs":27319}
+[2026-06-06T06:45:00.819Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T06:45:00.821Z] [INFO] Starting Reddit job sync...
+[2026-06-06T06:45:27.715Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T06:45:00.822Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:45:27.714Z","durationMs":26892}
+[2026-06-06T06:45:27.716Z] [INFO] Cron job completed {"startTime":"2026-06-06T06:45:00.822Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T06:45:27.714Z","durationMs":26892}
+[2026-06-06T07:00:00.382Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T07:00:00.383Z] [INFO] Starting Reddit job sync...
+[2026-06-06T07:00:27.951Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T07:00:00.385Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:00:27.950Z","durationMs":27565}
+[2026-06-06T07:00:27.952Z] [INFO] Cron job completed {"startTime":"2026-06-06T07:00:00.385Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:00:27.950Z","durationMs":27565}
+[2026-06-06T07:15:00.940Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T07:15:00.942Z] [INFO] Starting Reddit job sync...
+[2026-06-06T07:15:28.095Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T07:15:00.943Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:15:28.095Z","durationMs":27152}
+[2026-06-06T07:15:28.097Z] [INFO] Cron job completed {"startTime":"2026-06-06T07:15:00.943Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:15:28.095Z","durationMs":27152}
+[2026-06-06T07:30:00.246Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T07:30:00.248Z] [INFO] Starting Reddit job sync...
+[2026-06-06T07:30:27.065Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T07:30:00.249Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:30:27.065Z","durationMs":26816}
+[2026-06-06T07:30:27.066Z] [INFO] Cron job completed {"startTime":"2026-06-06T07:30:00.249Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:30:27.065Z","durationMs":26816}
+[2026-06-06T07:45:00.351Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T07:45:00.354Z] [INFO] Starting Reddit job sync...
+[2026-06-06T07:45:26.868Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T07:45:00.354Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:45:26.867Z","durationMs":26513}
+[2026-06-06T07:45:26.869Z] [INFO] Cron job completed {"startTime":"2026-06-06T07:45:00.354Z","communitiesFetched":11,"totalPostsFetched":46,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T07:45:26.867Z","durationMs":26513}
+[2026-06-06T07:57:34.754Z] [INFO] MongoDB connected
+[2026-06-06T07:57:34.761Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T07:57:34.763Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T07:57:34.781Z] [INFO] Server running on port 8008
+[2026-06-06T07:58:25.113Z] [INFO] MongoDB connected
+[2026-06-06T07:58:25.119Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T07:58:25.120Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T07:58:25.131Z] [INFO] Server running on port 8008
+[2026-06-06T08:00:02.793Z] [INFO] MongoDB connected
+[2026-06-06T08:00:02.803Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:00:02.804Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:00:02.821Z] [INFO] Server running on port 8008
+[2026-06-06T08:00:45.106Z] [INFO] MongoDB connected
+[2026-06-06T08:00:45.111Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:00:45.113Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:00:45.123Z] [INFO] Server running on port 8008
+[2026-06-06T08:01:28.288Z] [INFO] MongoDB connected
+[2026-06-06T08:01:28.294Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:01:28.295Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:01:28.303Z] [INFO] Server running on port 8008
+[2026-06-06T08:02:33.387Z] [INFO] MongoDB connected
+[2026-06-06T08:02:33.393Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:02:33.394Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:02:33.405Z] [INFO] Server running on port 8008
+[2026-06-06T08:05:12.973Z] [INFO] MongoDB connected
+[2026-06-06T08:05:12.978Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:05:12.979Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:05:12.987Z] [INFO] Server running on port 8008
+[2026-06-06T08:15:00.789Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T08:15:00.807Z] [INFO] Starting Reddit job sync...
+[2026-06-06T08:15:26.416Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T08:15:00.808Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T08:15:26.413Z","durationMs":25605}
+[2026-06-06T08:15:26.417Z] [INFO] Cron job completed {"startTime":"2026-06-06T08:15:00.808Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T08:15:26.413Z","durationMs":25605}
+[2026-06-06T08:30:00.907Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T08:30:00.915Z] [INFO] Starting Reddit job sync...
+[2026-06-06T08:30:26.192Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T08:30:00.916Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T08:30:26.191Z","durationMs":25275}
+[2026-06-06T08:30:26.193Z] [INFO] Cron job completed {"startTime":"2026-06-06T08:30:00.916Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T08:30:26.191Z","durationMs":25275}
+[2026-06-06T08:45:00.689Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T08:45:00.697Z] [INFO] Starting Reddit job sync...
+[2026-06-06T08:45:26.070Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T08:45:00.698Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T08:45:26.068Z","durationMs":25370}
+[2026-06-06T08:45:26.072Z] [INFO] Cron job completed {"startTime":"2026-06-06T08:45:00.698Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T08:45:26.068Z","durationMs":25370}
+[2026-06-06T08:54:08.808Z] [INFO] MongoDB connected
+[2026-06-06T08:54:08.813Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:54:08.814Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:54:08.823Z] [INFO] Server running on port 8008
+[2026-06-06T08:55:55.441Z] [INFO] MongoDB connected
+[2026-06-06T08:55:55.450Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-06T08:55:55.452Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-06T08:55:55.465Z] [INFO] Server running on port 8008
+[2026-06-06T09:00:00.992Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T09:00:00.994Z] [INFO] Starting Reddit job sync...
+[2026-06-06T09:00:32.883Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T09:00:00.995Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:00:32.881Z","durationMs":31886}
+[2026-06-06T09:00:32.887Z] [INFO] Cron job completed {"startTime":"2026-06-06T09:00:00.995Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:00:32.881Z","durationMs":31886}
+[2026-06-06T09:15:00.844Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T09:15:00.846Z] [INFO] Starting Reddit job sync...
+[2026-06-06T09:15:26.325Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T09:15:00.847Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:15:26.323Z","durationMs":25476}
+[2026-06-06T09:15:26.326Z] [INFO] Cron job completed {"startTime":"2026-06-06T09:15:00.847Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:15:26.323Z","durationMs":25476}
+[2026-06-06T09:30:00.841Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T09:30:00.851Z] [INFO] Starting Reddit job sync...
+[2026-06-06T09:30:26.589Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T09:30:00.852Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:30:26.586Z","durationMs":25734}
+[2026-06-06T09:30:26.590Z] [INFO] Cron job completed {"startTime":"2026-06-06T09:30:00.852Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-06T09:30:26.586Z","durationMs":25734}
+[2026-06-06T09:45:00.847Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T09:45:00.864Z] [INFO] Starting Reddit job sync...
+[2026-06-06T09:45:26.894Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T09:45:00.865Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T09:45:26.892Z","durationMs":26027}
+[2026-06-06T09:45:26.895Z] [INFO] Cron job completed {"startTime":"2026-06-06T09:45:00.865Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T09:45:26.892Z","durationMs":26027}
+[2026-06-06T10:00:00.718Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T10:00:00.735Z] [INFO] Starting Reddit job sync...
+[2026-06-06T10:00:49.432Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T10:00:00.736Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:00:49.430Z","durationMs":48694}
+[2026-06-06T10:00:49.433Z] [INFO] Cron job completed {"startTime":"2026-06-06T10:00:00.736Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:00:49.430Z","durationMs":48694}
+[2026-06-06T10:15:00.170Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T10:15:00.180Z] [INFO] Starting Reddit job sync...
+[2026-06-06T10:15:25.435Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T10:15:00.181Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:15:25.434Z","durationMs":25253}
+[2026-06-06T10:15:25.436Z] [INFO] Cron job completed {"startTime":"2026-06-06T10:15:00.181Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:15:25.434Z","durationMs":25253}
+[2026-06-06T10:30:00.481Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T10:30:00.498Z] [INFO] Starting Reddit job sync...
+[2026-06-06T10:30:27.047Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T10:30:00.498Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:30:27.045Z","durationMs":26547}
+[2026-06-06T10:30:27.048Z] [INFO] Cron job completed {"startTime":"2026-06-06T10:30:00.498Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:30:27.045Z","durationMs":26547}
+[2026-06-06T10:45:00.596Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T10:45:00.612Z] [INFO] Starting Reddit job sync...
+[2026-06-06T10:45:26.549Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T10:45:00.613Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:45:26.547Z","durationMs":25934}
+[2026-06-06T10:45:26.550Z] [INFO] Cron job completed {"startTime":"2026-06-06T10:45:00.613Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T10:45:26.547Z","durationMs":25934}
+[2026-06-06T16:45:00.255Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T16:45:00.267Z] [INFO] Starting Reddit job sync...
+[2026-06-06T16:45:26.364Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T16:45:00.268Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T16:45:26.363Z","durationMs":26095}
+[2026-06-06T16:45:26.365Z] [INFO] Cron job completed {"startTime":"2026-06-06T16:45:00.268Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T16:45:26.363Z","durationMs":26095}
+[2026-06-06T17:00:00.495Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T17:00:00.497Z] [INFO] Starting Reddit job sync...
+[2026-06-06T17:00:26.339Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T17:00:00.498Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:00:26.338Z","durationMs":25840}
+[2026-06-06T17:00:26.340Z] [INFO] Cron job completed {"startTime":"2026-06-06T17:00:00.498Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:00:26.338Z","durationMs":25840}
+[2026-06-06T17:15:00.997Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T17:15:00.998Z] [INFO] Starting Reddit job sync...
+[2026-06-06T17:15:26.522Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T17:15:00.998Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:15:26.522Z","durationMs":25524}
+[2026-06-06T17:15:26.523Z] [INFO] Cron job completed {"startTime":"2026-06-06T17:15:00.998Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:15:26.522Z","durationMs":25524}
+[2026-06-06T17:30:00.019Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T17:30:00.021Z] [INFO] Starting Reddit job sync...
+[2026-06-06T17:30:27.131Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T17:30:00.022Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:30:27.131Z","durationMs":27109}
+[2026-06-06T17:30:27.132Z] [INFO] Cron job completed {"startTime":"2026-06-06T17:30:00.022Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:30:27.131Z","durationMs":27109}
+[2026-06-06T17:45:00.183Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T17:45:00.186Z] [INFO] Starting Reddit job sync...
+[2026-06-06T17:45:25.191Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T17:45:00.186Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:45:25.191Z","durationMs":25005}
+[2026-06-06T17:45:25.192Z] [INFO] Cron job completed {"startTime":"2026-06-06T17:45:00.186Z","communitiesFetched":11,"totalPostsFetched":44,"newJobsCreated":0,"duplicatesSkipped":42,"errors":[],"endTime":"2026-06-06T17:45:25.191Z","durationMs":25005}
+[2026-06-06T18:00:00.185Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T18:00:00.186Z] [INFO] Starting Reddit job sync...
+[2026-06-06T18:00:27.407Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T18:00:00.187Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:00:27.407Z","durationMs":27220}
+[2026-06-06T18:00:27.408Z] [INFO] Cron job completed {"startTime":"2026-06-06T18:00:00.187Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:00:27.407Z","durationMs":27220}
+[2026-06-06T18:15:00.313Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T18:15:00.315Z] [INFO] Starting Reddit job sync...
+[2026-06-06T18:15:26.239Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T18:15:00.316Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:15:26.239Z","durationMs":25923}
+[2026-06-06T18:15:26.241Z] [INFO] Cron job completed {"startTime":"2026-06-06T18:15:00.316Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:15:26.239Z","durationMs":25923}
+[2026-06-06T18:30:00.381Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T18:30:00.382Z] [INFO] Starting Reddit job sync...
+[2026-06-06T18:30:26.504Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T18:30:00.383Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:30:26.504Z","durationMs":26121}
+[2026-06-06T18:30:26.505Z] [INFO] Cron job completed {"startTime":"2026-06-06T18:30:00.383Z","communitiesFetched":11,"totalPostsFetched":45,"newJobsCreated":0,"duplicatesSkipped":43,"errors":[],"endTime":"2026-06-06T18:30:26.504Z","durationMs":26121}
+[2026-06-06T18:45:00.720Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T18:45:00.721Z] [INFO] Starting Reddit job sync...
+[2026-06-06T18:45:26.100Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T18:45:00.722Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T18:45:26.099Z","durationMs":25377}
+[2026-06-06T18:45:26.101Z] [INFO] Cron job completed {"startTime":"2026-06-06T18:45:00.722Z","communitiesFetched":11,"totalPostsFetched":47,"newJobsCreated":0,"duplicatesSkipped":45,"errors":[],"endTime":"2026-06-06T18:45:26.099Z","durationMs":25377}
+[2026-06-06T19:00:00.842Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T19:00:00.843Z] [INFO] Starting Reddit job sync...
+[2026-06-06T19:00:31.461Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T19:00:00.843Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T19:00:31.461Z","durationMs":30618}
+[2026-06-06T19:00:31.463Z] [INFO] Cron job completed {"startTime":"2026-06-06T19:00:00.843Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T19:00:31.461Z","durationMs":30618}
+[2026-06-06T19:15:00.260Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T19:15:00.261Z] [INFO] Starting Reddit job sync...
+[2026-06-06T19:15:26.140Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T19:15:00.261Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T19:15:26.140Z","durationMs":25879}
+[2026-06-06T19:15:26.142Z] [INFO] Cron job completed {"startTime":"2026-06-06T19:15:00.261Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T19:15:26.140Z","durationMs":25879}
+[2026-06-06T19:30:00.118Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T19:30:00.119Z] [INFO] Starting Reddit job sync...
+[2026-06-06T19:30:26.136Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T19:30:00.120Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T19:30:26.136Z","durationMs":26016}
+[2026-06-06T19:30:26.137Z] [INFO] Cron job completed {"startTime":"2026-06-06T19:30:00.120Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T19:30:26.136Z","durationMs":26016}
+[2026-06-06T19:45:00.330Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T19:45:00.331Z] [INFO] Starting Reddit job sync...
+[2026-06-06T19:45:26.053Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T19:45:00.332Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T19:45:26.052Z","durationMs":25720}
+[2026-06-06T19:45:26.054Z] [INFO] Cron job completed {"startTime":"2026-06-06T19:45:00.332Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T19:45:26.052Z","durationMs":25720}
+[2026-06-06T20:00:00.408Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T20:00:00.409Z] [INFO] Starting Reddit job sync...
+[2026-06-06T20:00:33.577Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T20:00:00.410Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:00:33.577Z","durationMs":33167}
+[2026-06-06T20:00:33.578Z] [INFO] Cron job completed {"startTime":"2026-06-06T20:00:00.410Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:00:33.577Z","durationMs":33167}
+[2026-06-06T20:15:00.935Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T20:15:00.937Z] [INFO] Starting Reddit job sync...
+[2026-06-06T20:15:26.056Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T20:15:00.938Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:15:26.055Z","durationMs":25117}
+[2026-06-06T20:15:26.057Z] [INFO] Cron job completed {"startTime":"2026-06-06T20:15:00.938Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:15:26.055Z","durationMs":25117}
+[2026-06-06T20:30:00.568Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T20:30:00.569Z] [INFO] Starting Reddit job sync...
+[2026-06-06T20:30:26.118Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T20:30:00.570Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:30:26.117Z","durationMs":25547}
+[2026-06-06T20:30:26.119Z] [INFO] Cron job completed {"startTime":"2026-06-06T20:30:00.570Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:30:26.117Z","durationMs":25547}
+[2026-06-06T20:45:00.227Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T20:45:00.229Z] [INFO] Starting Reddit job sync...
+[2026-06-06T20:45:26.031Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T20:45:00.229Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:45:26.031Z","durationMs":25802}
+[2026-06-06T20:45:26.032Z] [INFO] Cron job completed {"startTime":"2026-06-06T20:45:00.229Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T20:45:26.031Z","durationMs":25802}
+[2026-06-06T21:00:00.287Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T21:00:00.288Z] [INFO] Starting Reddit job sync...
+[2026-06-06T21:00:39.956Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T21:00:00.289Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:00:39.955Z","durationMs":39666}
+[2026-06-06T21:00:39.956Z] [INFO] Cron job completed {"startTime":"2026-06-06T21:00:00.289Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:00:39.955Z","durationMs":39666}
+[2026-06-06T21:15:00.209Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T21:15:00.210Z] [INFO] Starting Reddit job sync...
+[2026-06-06T21:15:25.822Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T21:15:00.211Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:15:25.822Z","durationMs":25611}
+[2026-06-06T21:15:25.823Z] [INFO] Cron job completed {"startTime":"2026-06-06T21:15:00.211Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:15:25.822Z","durationMs":25611}
+[2026-06-06T21:30:00.439Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T21:30:00.441Z] [INFO] Starting Reddit job sync...
+[2026-06-06T21:30:26.845Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T21:30:00.442Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:30:26.844Z","durationMs":26402}
+[2026-06-06T21:30:26.846Z] [INFO] Cron job completed {"startTime":"2026-06-06T21:30:00.442Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:30:26.844Z","durationMs":26402}
+[2026-06-06T21:45:00.332Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T21:45:00.333Z] [INFO] Starting Reddit job sync...
+[2026-06-06T21:45:26.051Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T21:45:00.334Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:45:26.050Z","durationMs":25716}
+[2026-06-06T21:45:26.051Z] [INFO] Cron job completed {"startTime":"2026-06-06T21:45:00.334Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T21:45:26.050Z","durationMs":25716}
+[2026-06-06T22:00:00.064Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T22:00:00.065Z] [INFO] Starting Reddit job sync...
+[2026-06-06T22:00:26.160Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T22:00:00.065Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:00:26.160Z","durationMs":26095}
+[2026-06-06T22:00:26.161Z] [INFO] Cron job completed {"startTime":"2026-06-06T22:00:00.065Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:00:26.160Z","durationMs":26095}
+[2026-06-06T22:15:00.019Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T22:15:00.020Z] [INFO] Starting Reddit job sync...
+[2026-06-06T22:15:25.257Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T22:15:00.020Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:15:25.257Z","durationMs":25237}
+[2026-06-06T22:15:25.258Z] [INFO] Cron job completed {"startTime":"2026-06-06T22:15:00.020Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:15:25.257Z","durationMs":25237}
+[2026-06-06T22:30:00.970Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T22:30:00.971Z] [INFO] Starting Reddit job sync...
+[2026-06-06T22:30:26.028Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T22:30:00.972Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:30:26.027Z","durationMs":25055}
+[2026-06-06T22:30:26.028Z] [INFO] Cron job completed {"startTime":"2026-06-06T22:30:00.972Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":46,"errors":[],"endTime":"2026-06-06T22:30:26.027Z","durationMs":25055}
+[2026-06-06T22:45:00.902Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T22:45:00.902Z] [INFO] Starting Reddit job sync...
+[2026-06-06T22:45:26.353Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T22:45:00.903Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T22:45:26.353Z","durationMs":25450}
+[2026-06-06T22:45:26.354Z] [INFO] Cron job completed {"startTime":"2026-06-06T22:45:00.903Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T22:45:26.353Z","durationMs":25450}
+[2026-06-06T23:00:00.083Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T23:00:00.085Z] [INFO] Starting Reddit job sync...
+[2026-06-06T23:00:25.265Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T23:00:00.085Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T23:00:25.265Z","durationMs":25180}
+[2026-06-06T23:00:25.266Z] [INFO] Cron job completed {"startTime":"2026-06-06T23:00:00.085Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T23:00:25.265Z","durationMs":25180}
+[2026-06-06T23:15:00.346Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-06T23:15:00.355Z] [INFO] Starting Reddit job sync...
+[2026-06-06T23:15:25.339Z] [INFO] Reddit job sync completed {"startTime":"2026-06-06T23:15:00.356Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T23:15:25.338Z","durationMs":24982}
+[2026-06-06T23:15:25.339Z] [INFO] Cron job completed {"startTime":"2026-06-06T23:15:00.356Z","communitiesFetched":11,"totalPostsFetched":48,"newJobsCreated":0,"duplicatesSkipped":47,"errors":[],"endTime":"2026-06-06T23:15:25.338Z","durationMs":24982}
+[2026-06-07T03:52:40.893Z] [INFO] MongoDB connected
+[2026-06-07T03:52:40.926Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T03:52:40.928Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T03:52:40.945Z] [INFO] Server running on port 8008
+[2026-06-07T04:00:00.730Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T04:00:00.733Z] [INFO] Starting Reddit job sync...
+[2026-06-07T04:00:40.125Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T04:00:00.734Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:00:40.124Z","durationMs":39390}
+[2026-06-07T04:00:40.126Z] [INFO] Cron job completed {"startTime":"2026-06-07T04:00:00.734Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:00:40.124Z","durationMs":39390}
+[2026-06-07T04:15:00.532Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T04:15:00.535Z] [INFO] Starting Reddit job sync...
+[2026-06-07T04:15:30.120Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T04:15:00.536Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:15:30.119Z","durationMs":29583}
+[2026-06-07T04:15:30.122Z] [INFO] Cron job completed {"startTime":"2026-06-07T04:15:00.536Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:15:30.119Z","durationMs":29583}
+[2026-06-07T04:30:00.154Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T04:30:00.156Z] [INFO] Starting Reddit job sync...
+[2026-06-07T04:30:28.540Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T04:30:00.157Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:30:28.540Z","durationMs":28383}
+[2026-06-07T04:30:28.542Z] [INFO] Cron job completed {"startTime":"2026-06-07T04:30:00.157Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:30:28.540Z","durationMs":28383}
+[2026-06-07T04:45:00.534Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T04:45:00.535Z] [INFO] Starting Reddit job sync...
+[2026-06-07T04:45:30.036Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T04:45:00.536Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:45:30.036Z","durationMs":29500}
+[2026-06-07T04:45:30.038Z] [INFO] Cron job completed {"startTime":"2026-06-07T04:45:00.536Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T04:45:30.036Z","durationMs":29500}
+[2026-06-07T05:00:00.826Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T05:00:00.828Z] [INFO] Starting Reddit job sync...
+[2026-06-07T05:00:36.135Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T05:00:00.829Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:00:36.134Z","durationMs":35305}
+[2026-06-07T05:00:36.137Z] [INFO] Cron job completed {"startTime":"2026-06-07T05:00:00.829Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:00:36.134Z","durationMs":35305}
+[2026-06-07T05:15:00.673Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T05:15:00.697Z] [INFO] Starting Reddit job sync...
+[2026-06-07T05:15:31.895Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T05:15:00.698Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:15:31.893Z","durationMs":31195}
+[2026-06-07T05:15:31.899Z] [INFO] Cron job completed {"startTime":"2026-06-07T05:15:00.698Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:15:31.893Z","durationMs":31195}
+[2026-06-07T05:28:59.603Z] [INFO] MongoDB connected
+[2026-06-07T05:28:59.616Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:28:59.617Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:29:37.859Z] [INFO] MongoDB connected
+[2026-06-07T05:29:37.872Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:29:37.874Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:29:56.402Z] [INFO] MongoDB connected
+[2026-06-07T05:29:56.416Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:29:56.418Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:29:56.435Z] [INFO] Server running on port 8008
+[2026-06-07T05:30:00.470Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T05:30:00.472Z] [INFO] Starting Reddit job sync...
+[2026-06-07T05:30:28.093Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T05:30:00.474Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:30:28.093Z","durationMs":27619}
+[2026-06-07T05:30:28.095Z] [INFO] Cron job completed {"startTime":"2026-06-07T05:30:00.474Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:30:28.093Z","durationMs":27619}
+[2026-06-07T05:31:59.922Z] [INFO] MongoDB connected
+[2026-06-07T05:31:59.927Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:31:59.928Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:31:59.935Z] [INFO] Server running on port 8008
+[2026-06-07T05:45:00.297Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T05:45:00.299Z] [INFO] Starting Reddit job sync...
+[2026-06-07T05:45:25.694Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T05:45:00.300Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:45:25.693Z","durationMs":25393}
+[2026-06-07T05:45:25.695Z] [INFO] Cron job completed {"startTime":"2026-06-07T05:45:00.300Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T05:45:25.693Z","durationMs":25393}
+[2026-06-07T05:48:48.806Z] [INFO] MongoDB connected
+[2026-06-07T05:48:48.812Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:48:48.813Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:53:04.988Z] [INFO] MongoDB connected
+[2026-06-07T05:53:04.997Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:53:04.999Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:53:05.014Z] [INFO] Server running on port 8008
+[2026-06-07T05:53:52.409Z] [INFO] MongoDB connected
+[2026-06-07T05:53:52.414Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:53:52.415Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:53:52.422Z] [INFO] Server running on port 8008
+[2026-06-07T05:55:05.919Z] [INFO] MongoDB connected
+[2026-06-07T05:55:05.924Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:55:05.925Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:55:05.932Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T05:57:01.438Z] [INFO] MongoDB connected
+[2026-06-07T05:57:01.443Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:57:01.445Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:57:01.453Z] [INFO] Server running on port 8008
+[2026-06-07T05:57:25.166Z] [INFO] MongoDB connected
+[2026-06-07T05:57:25.171Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:57:25.172Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:57:25.178Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T05:57:35.122Z] [INFO] MongoDB connected
+[2026-06-07T05:57:35.128Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T05:57:35.129Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T05:57:35.135Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:00:00.735Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T06:00:00.736Z] [INFO] Starting Reddit job sync...
+[2026-06-07T06:00:41.576Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T06:00:00.737Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:00:41.576Z","durationMs":40839}
+[2026-06-07T06:00:41.577Z] [INFO] Cron job completed {"startTime":"2026-06-07T06:00:00.737Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:00:41.576Z","durationMs":40839}
+[2026-06-07T06:05:10.561Z] [INFO] MongoDB connected
+[2026-06-07T06:05:10.566Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:05:10.567Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:05:10.578Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:07:05.784Z] [INFO] MongoDB connected
+[2026-06-07T06:07:05.789Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:07:05.791Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:07:05.802Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:08:11.699Z] [INFO] MongoDB connected
+[2026-06-07T06:08:11.704Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:08:11.705Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:08:11.711Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:10:00.621Z] [INFO] MongoDB connected
+[2026-06-07T06:10:00.627Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:10:00.628Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:10:00.638Z] [INFO] Server running on port 8008
+[2026-06-07T06:11:05.407Z] [INFO] MongoDB connected
+[2026-06-07T06:11:05.413Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:11:05.414Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:11:05.421Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:11:14.901Z] [INFO] MongoDB connected
+[2026-06-07T06:11:14.908Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:11:14.909Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:11:14.918Z] [INFO] Server running on port 8008
+[2026-06-07T06:13:34.088Z] [INFO] MongoDB connected
+[2026-06-07T06:13:34.094Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:13:34.096Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:13:34.106Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:13:40.685Z] [INFO] MongoDB connected
+[2026-06-07T06:13:40.691Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:13:40.692Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:13:40.699Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:13:45.127Z] [INFO] MongoDB connected
+[2026-06-07T06:13:45.132Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:13:45.133Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:13:45.140Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:13:48.051Z] [INFO] MongoDB connected
+[2026-06-07T06:13:48.057Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:13:48.058Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:13:48.065Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:13:56.219Z] [INFO] MongoDB connected
+[2026-06-07T06:13:56.224Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:13:56.226Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:13:56.234Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:14:02.998Z] [INFO] MongoDB connected
+[2026-06-07T06:14:03.005Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:14:03.006Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:14:03.012Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:14:39.463Z] [INFO] MongoDB connected
+[2026-06-07T06:14:39.469Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:14:39.471Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:14:39.480Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:14:49.040Z] [INFO] MongoDB connected
+[2026-06-07T06:14:49.047Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:14:49.048Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:14:49.058Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:14:55.976Z] [INFO] MongoDB connected
+[2026-06-07T06:14:55.981Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:14:55.982Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:14:55.989Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:14:59.407Z] [INFO] MongoDB connected
+[2026-06-07T06:14:59.411Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:14:59.412Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:14:59.418Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:15:00.611Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T06:15:00.612Z] [INFO] Starting Reddit job sync...
+[2026-06-07T06:15:04.206Z] [INFO] MongoDB connected
+[2026-06-07T06:15:04.211Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:15:04.212Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:15:04.219Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:15:13.713Z] [INFO] MongoDB connected
+[2026-06-07T06:15:13.718Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:15:13.719Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:15:13.727Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:15:22.409Z] [INFO] MongoDB connected
+[2026-06-07T06:15:22.414Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:15:22.415Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:15:22.425Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:15:26.101Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T06:15:00.613Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:15:26.101Z","durationMs":25488}
+[2026-06-07T06:15:26.104Z] [INFO] Cron job completed {"startTime":"2026-06-07T06:15:00.613Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:15:26.101Z","durationMs":25488}
+[2026-06-07T06:15:45.917Z] [INFO] MongoDB connected
+[2026-06-07T06:15:45.922Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:15:45.923Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:15:45.931Z] [INFO] Server running on port 8008
+[2026-06-07T06:30:00.599Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T06:30:00.604Z] [INFO] Starting Reddit job sync...
+[2026-06-07T06:30:26.455Z] [INFO] Reddit job sync completed {"startTime":"2026-06-07T06:30:00.604Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:30:26.453Z","durationMs":25849}
+[2026-06-07T06:30:26.458Z] [INFO] Cron job completed {"startTime":"2026-06-07T06:30:00.604Z","communitiesFetched":11,"totalPostsFetched":49,"newJobsCreated":0,"duplicatesSkipped":48,"errors":[],"endTime":"2026-06-07T06:30:26.453Z","durationMs":25849}
+[2026-06-07T06:31:21.562Z] [INFO] MongoDB connected
+[2026-06-07T06:31:21.574Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:31:21.576Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:31:21.593Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:31:35.809Z] [INFO] MongoDB connected
+[2026-06-07T06:31:35.815Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:31:35.816Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:31:35.824Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:34:56.027Z] [INFO] MongoDB connected
+[2026-06-07T06:34:56.032Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:34:56.033Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:34:56.042Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:38:16.729Z] [INFO] MongoDB connected
+[2026-06-07T06:38:16.736Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:38:16.737Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:38:16.747Z] [INFO] Server running on port 8008
+[2026-06-07T06:44:24.866Z] [INFO] MongoDB connected
+[2026-06-07T06:44:24.871Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:44:24.872Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:44:24.879Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:44:36.328Z] [INFO] MongoDB connected
+[2026-06-07T06:44:36.333Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:44:36.334Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:44:36.341Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:45:00.780Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T06:45:00.781Z] [INFO] Starting Reddit job sync...
+[2026-06-07T06:45:20.159Z] [INFO] MongoDB connected
+[2026-06-07T06:45:20.163Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:45:20.164Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:45:20.172Z] [INFO] Server running on port 8008
+[2026-06-07T06:51:00.331Z] [INFO] MongoDB connected
+[2026-06-07T06:51:00.337Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:51:00.338Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:51:00.346Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:51:33.471Z] [INFO] MongoDB connected
+[2026-06-07T06:51:33.477Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:51:33.478Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:51:33.484Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T06:59:56.041Z] [INFO] MongoDB connected
+[2026-06-07T06:59:56.045Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:59:56.046Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:59:56.053Z] [INFO] Server running on port 8008
+[2026-06-07T06:59:59.258Z] [INFO] MongoDB connected
+[2026-06-07T06:59:59.264Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T06:59:59.265Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T06:59:59.274Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T07:00:00.057Z] [INFO] Cron job triggered: Starting Reddit job sync
+[2026-06-07T07:00:00.058Z] [INFO] Starting Reddit job sync...
+[2026-06-07T07:00:21.589Z] [INFO] MongoDB connected
+[2026-06-07T07:00:21.594Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T07:00:21.595Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T07:00:21.603Z] [INFO] Server running on port 8008
+[2026-06-07T07:01:25.104Z] [INFO] MongoDB connected
+[2026-06-07T07:01:25.108Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T07:01:25.109Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T07:01:25.115Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.
+[2026-06-07T07:01:36.604Z] [INFO] MongoDB connected
+[2026-06-07T07:01:36.608Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T07:01:36.609Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T07:01:36.615Z] [INFO] Server running on port 8008
+[2026-06-07T07:01:39.491Z] [INFO] MongoDB connected
+[2026-06-07T07:01:39.501Z] [INFO] Cron job initialized with expression: */15 * * * *
+[2026-06-07T07:01:39.502Z] [INFO] Reddit sync cron job initialized: */15 * * * *
+[2026-06-07T07:01:39.512Z] [ERROR] Port 8008 is already in use. Another process may be running. Kill it or set PORT in .env to a different value.

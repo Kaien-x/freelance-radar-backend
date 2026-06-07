@@ -6,6 +6,7 @@ const Job = require('../models/Job.model');
 const Application = require('../models/Application.model');
 const { success } = require('../utils/response.util');
 const asyncHandler = require('../utils/asyncHandler');
+const { getEmailLogs, getEmailStats } = require('../controllers/admin.controller');
 
 console.log('Admin routes initialized');
 //router.use(protect, requireRole('admin'));
@@ -34,5 +35,9 @@ router.get('/jobs', asyncHandler(async (req, res) => {
   const jobs = await Job.find().populate('poster', 'name email').sort({ createdAt: -1 });
   return success(res, jobs);
 }));
+
+// ─── Email Logs ───────────────────────────────────────────────────────────────
+router.get('/emails/stats', protect, requireRole('admin'), asyncHandler(getEmailStats));
+router.get('/emails', protect, requireRole('admin'), asyncHandler(getEmailLogs));
 
 module.exports = router;

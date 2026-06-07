@@ -15,6 +15,13 @@ const protect = async (req, res, next) => {
     if (!req.user) return error(res, 'User not found', 401);
     if (!req.user.isActive) return error(res, 'Account deactivated', 401);
     
+    // Check email verification EXCEPT for verification routes and /auth/me
+    const isVerificationRoute = req.originalUrl.includes('/auth/verify-email') || req.originalUrl.includes('/auth/resend-verification');
+    const isMeRoute = req.originalUrl.includes('/auth/me');
+    if (!req.user.isEmailVerified && !isVerificationRoute && !isMeRoute) {
+      return res.status(403).json({ success: false, message: 'Email not verified', errorCode: 'EMAIL_NOT_VERIFIED' });
+    }
+    
     next();
   } catch (err) {
     return error(res, 'Not authorized', 401);

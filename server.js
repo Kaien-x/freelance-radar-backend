@@ -26,6 +26,10 @@ app.use('/api/applications', require('./routes/application.routes'));
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
 app.use('/api/check-apis', require('./routes/check-api'));
+// Waitlist (public and admin)
+const waitlistRoutes = require('./routes/waitlist.routes');
+app.use('/api/waitlist', waitlistRoutes.public);
+app.use('/api/admin/waitlist', waitlistRoutes.admin);
 
 // Global error handler
 app.use((err, req, res, next) => {
@@ -55,8 +59,18 @@ mongoose.connect(process.env.MONGODB_URI)
       logger.error('Failed to initialize Reddit cron job', cronError.message);
     }
 
-    app.listen(process.env.PORT || 5000, () => {
-      logger.info(`Server running on port ${process.env.PORT || 5000}`);
+    const port = process.env.PORT || 5000;
+    const server = app.listen(port, () => {
+      logger.info(`Server running on port ${port}`);
+    });
+
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(`Port ${port} is already in use. Another process may be running. Kill it or set PORT in .env to a different value.`);
+        process.exit(1);
+      }
+      logger.error('Server error', err.message);
+      process.exit(1);
     });
   })
   .catch(err => {

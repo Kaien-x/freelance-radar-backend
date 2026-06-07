@@ -1,0 +1,207 @@
+[
+    {
+      "category": "Web Development",
+      "weight": 1,
+      "keywords": [
+        "website", "web app", "webapp", "frontend", "front-end", "front end",
+        "backend", "back-end", "back end", "full stack", "fullstack", "full-stack",
+        "html", "css", "javascript", "react", "vue", "angular", "next.js", "nextjs",
+        "nuxt", "svelte", "wordpress", "shopify", "woocommerce", "landing page",
+        "web developer", "web dev", "php", "laravel", "codeigniter", "web application"
+      ]
+    },
+    {
+      "category": "Mobile Development",
+      "weight": 1,
+      "keywords": [
+        "mobile app", "ios app", "android app", "react native", "flutter",
+        "swift", "kotlin", "xamarin", "mobile developer", "mobile dev",
+        "app development", "iphone app", "ipad app", "android development",
+        "ios development", "cross platform app"
+      ]
+    },
+    {
+      "category": "Design / UI/UX",
+      "weight": 1,
+      "keywords": [
+        "ui/ux", "ui ux", "ux design", "ui design", "figma", "sketch",
+        "adobe xd", "graphic design", "logo design", "logo creation", "branding",
+        "illustration", "photoshop", "illustrator", "web design", "designer",
+        "creative design", "mockup", "wireframe", "prototype", "visual design",
+        "brand identity", "print design", "poster design", "banner design",
+        "canva", "indesign", "typography"
+      ]
+    },
+    {
+      "category": "Data Science / AI",
+      "weight": 1.5,
+      "keywords": [
+        "machine learning", "deep learning", "data science", "data analyst",
+        "data engineer", "artificial intelligence", "natural language processing",
+        "tensorflow", "pytorch", "computer vision", "neural network", "ai model",
+        "large language model", "llm", "gpt", "nlp", "predictive model",
+        "data visualization", "statistical analysis", "r programming",
+        "pandas", "numpy", "scikit", "jupyter", "tableau", "power bi",
+        "business intelligence", "bi developer", "data pipeline"
+      ]
+    },
+    {
+      "category": "AI Training / Data Labeling",
+      "weight": 2,
+      "keywords": [
+        "ai trainer", "data labeling", "data annotation", "image annotation",
+        "dataset", "rlhf", "training data", "annotate", "ai training",
+        "content moderation", "image review", "photo review", "label images",
+        "label data", "data collection", "model training", "feedback training",
+        "human feedback", "ai evaluation", "llm evaluation", "prompt evaluation"
+      ]
+    },
+    {
+      "category": "DevOps / Cloud",
+      "weight": 1.5,
+      "keywords": [
+        "devops", "aws", "azure", "gcp", "google cloud", "docker", "kubernetes",
+        "ci/cd", "cicd", "terraform", "ansible", "cloud infrastructure",
+        "sysadmin", "server admin", "linux admin", "cloud engineer",
+        "cloud architect", "devsecops", "jenkins", "github actions",
+        "cloud migration", "infrastructure as code", "site reliability",
+        "sre", "load balancer", "nginx", "apache"
+      ]
+    },
+    {
+      "category": "Database / Backend",
+      "weight": 1,
+      "keywords": [
+        "postgresql", "mongodb", "mysql", "redis", "api development",
+        "rest api", "graphql", "microservices", "node.js", "express.js",
+        "django", "flask", "spring boot", "laravel", "database design",
+        "database optimization", "sql server", "oracle database", "firebase",
+        "supabase", "prisma", "sequelize", "backend developer", "api integration",
+        "websocket", "grpc", "backend development"
+      ]
+    },
+    {
+      "category": "Data / Automation",
+      "weight": 1,
+      "keywords": [
+        "excel", "spreadsheet", "pdf conversion", "data extraction",
+        "automation", "python script", "web scraping", "scraping", "csv",
+        "google sheets", "data processing", "data migration", "etl",
+        "convert pdf", "pdf to excel", "pdf to word", "data cleaning",
+        "data formatting", "macro", "vba", "zapier", "make.com", "n8n",
+        "workflow automation", "task automation", "rpa", "selenium",
+        "puppeteer", "playwright", "beautifulsoup"
+      ]
+    },
+    {
+      "category": "Blockchain / Web3",
+      "weight": 2,
+      "keywords": [
+        "blockchain", "ethereum", "solidity", "web3", "smart contract",
+        "cryptocurrency", "nft", "defi", "dapp", "solana", "polygon",
+        "binance smart chain", "hardhat", "truffle", "metamask", "dao",
+        "tokenomics", "crypto wallet", "web3.js", "ethers.js"
+      ]
+    },
+    {
+      "category": "Content Writing",
+      "weight": 1,
+      "keywords": [
+        "content writing", "copywriting", "blog post", "article writing",
+        "ghostwriting", "technical writing", "content creator", "proofreading",
+        "copy editor", "content writer", "science communicator",
+        "technical communicator", "newsletter writing", "social media content",
+        "script writing", "speech writing", "grant writing", "press release",
+        "ebook writing", "white paper", "case study writing", "product description",
+        "creative writing", "storytelling", "journalism"
+      ]
+    },
+    {
+      "category": "SEO / Digital Marketing",
+      "weight": 1,
+      "keywords": [
+        "search engine optimization", "digital marketing", "social media marketing",
+        "google ads", "facebook ads", "pay per click", "email marketing",
+        "growth hacking", "seo audit", "link building", "keyword research",
+        "content marketing", "affiliate marketing", "influencer marketing",
+        "tiktok marketing", "instagram marketing", "youtube marketing",
+        "marketing strategy", "brand marketing", "ppc campaign",
+        "conversion rate", "a/b testing", "marketing funnel"
+      ]
+    },
+    {
+      "category": "Video / Animation",
+      "weight": 1,
+      "keywords": [
+        "video editing", "video production", "motion graphics", "after effects",
+        "premiere pro", "davinci resolve", "vfx", "3d animation", "2d animation",
+        "animation", "video creator", "youtube video", "short form video",
+        "reels editing", "tiktok video", "explainer video", "whiteboard animation",
+        "character animation", "blender", "cinema 4d", "video ads",
+        "product video", "documentary", "video thumbnail"
+      ]
+    },
+    {
+      "category": "Game Development",
+      "weight": 1.5,
+      "keywords": [
+        "game development", "unity", "unreal engine", "godot", "game design",
+        "game art", "game programmer", "game dev", "mobile game", "pc game",
+        "multiplayer game", "game mechanics", "level design", "game ui",
+        "roblox", "minecraft mod", "game testing", "game assets"
+      ]
+    },
+    {
+      "category": "Cybersecurity",
+      "weight": 2,
+      "keywords": [
+        "cybersecurity", "penetration testing", "pentest", "infosec",
+        "vulnerability assessment", "ethical hacking", "security audit",
+        "cyber security", "bug bounty", "network security", "firewall",
+        "security engineer", "ctf", "malware analysis", "reverse engineering",
+        "owasp", "security testing", "code review security"
+      ]
+    },
+    {
+      "category": "QA / Testing",
+      "weight": 1.5,
+      "keywords": [
+        "quality assurance", "software testing", "manual testing",
+        "automated testing", "test cases", "bug reporting", "qa engineer",
+        "account testing", "app testing", "website testing", "usability testing",
+        "regression testing", "selenium testing", "cypress", "playwright testing",
+        "test automation", "qa analyst", "performance testing", "load testing"
+      ]
+    },
+    {
+      "category": "Virtual Assistant",
+      "weight": 1,
+      "keywords": [
+        "virtual assistant", "admin support", "administrative assistant",
+        "personal assistant", "executive assistant", "calendar management",
+        "email management", "customer support", "customer service",
+        "live chat support", "helpdesk", "data entry", "online research",
+        "lead generation", "cold calling", "appointment setting"
+      ]
+    },
+    {
+      "category": "E-commerce",
+      "weight": 1,
+      "keywords": [
+        "ecommerce", "online store", "magento", "amazon seller", "dropshipping",
+        "product listing", "etsy", "ebay", "amazon fba", "shopify store",
+        "product photography", "product research", "inventory management",
+        "marketplace", "online marketplace", "store setup", "woocommerce store"
+      ]
+    },
+    {
+      "category": "Project Management",
+      "weight": 1,
+      "keywords": [
+        "project management", "project manager", "scrum", "agile", "jira",
+        "product manager", "product management", "product owner", "sprint",
+        "roadmap", "stakeholder", "trello", "asana", "notion", "monday.com",
+        "delivery manager", "programme manager", "pmo"
+      ]
+    }
+]

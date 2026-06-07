@@ -11,10 +11,16 @@ const userSchema = new mongoose.Schema({
   // Auth – password is optional (not needed for Google-only accounts)
   password: { type: String, required: false, minlength: 8, default: null },
 
+  // Password reset
+  passwordResetToken:   { type: String, default: null },
+  passwordResetExpires: { type: Date,   default: null },
+
   // Role / status
   role:     { type: String, enum: ['jobseeker', 'jobposter', 'admin'], default: 'jobseeker' },
   isActive: { type: Boolean, default: true },
   isEmailVerified: { type: Boolean, default: false },
+  emailVerificationOtp: { type: String, default: null },
+  emailVerificationExpires: { type: Date, default: null },
 
   // Onboarding
   onboardingComplete: { type: Boolean, default: false },
@@ -51,6 +57,10 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
+  delete obj.passwordResetToken;
+  delete obj.passwordResetExpires;
+  delete obj.emailVerificationOtp;
+  delete obj.emailVerificationExpires;
   return obj;
 };
 

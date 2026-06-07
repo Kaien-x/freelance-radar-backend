@@ -6,6 +6,7 @@ const applicationSchema = new mongoose.Schema({
   proposal: { type: String, required: true, minlength: 50 },
   status: { type: String, enum: ['pending', 'viewed', 'shortlisted', 'rejected', 'hired'], default: 'pending' },
   coverLetter: { type: String, default: '' },
+  portfolioUrl: { type: String, default: '' },
   bidAmount: { type: Number, default: null },
   withdrawnAt: { type: Date, default: null }
 }, { timestamps: true });

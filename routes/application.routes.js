@@ -7,12 +7,14 @@ const {
   applyToJob,
   withdrawApplication,
   getJobApplicants,
-  updateApplicationStatus
+  updateApplicationStatus,
+  checkApplied
 } = require('../controllers/application.controller');
 
 router.use(protect);
 
 router.get('/', requireRole('jobseeker'), getMyApplications);
+router.get('/check/:jobId', requireRole('jobseeker'), checkApplied);
 router.post('/', requireRole('jobseeker'), applyToJob);
 router.get('/:id', getApplication);
 router.delete('/:id', requireRole('jobseeker'), withdrawApplication);
