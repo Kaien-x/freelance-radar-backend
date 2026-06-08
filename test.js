@@ -3,12 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
-console.log(
-  "EMAIL_APP_PASSWORD:",
-  process.env.EMAIL_APP_PASSWORD ? "Loaded" : "Missing"
-);
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -30,7 +24,7 @@ async function sendEmail(
       html,
     });
 
-    console.log("Email sent:", info.messageId);
+    // email sent successfully (removed debug logging)
   } catch (error) {
     console.error("Email error:", error);
   }
