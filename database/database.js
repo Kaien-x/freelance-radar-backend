@@ -14,7 +14,6 @@ class Database {
           console.error('Error opening database:', err.message);
           reject(err);
         } else {
-          console.log('Connected to SQLite database');
           resolve();
         }
       });
@@ -100,7 +99,6 @@ class Database {
           } else {
             completed++;
             if (completed === tables.length) {
-              console.log('All tables initialized');
               resolve();
             }
           }
@@ -152,7 +150,6 @@ class Database {
           if (err) {
             reject(err);
           } else {
-            console.log('Database connection closed');
             resolve();
           }
         });

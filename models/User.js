@@ -5,10 +5,8 @@ const { ObjectId } = require('mongodb');
 class User {
   static async create(userData) {
     const { name, email, password, plan = 'free', reddit_username } = userData;
-    console.log('User.create called with:', { name, email, plan, reddit_username });
     
     const hashedPassword = await bcrypt.hash(password, 12);
-    console.log('Password hashed successfully');
     
     try {
       const userDocument = {
@@ -21,9 +19,7 @@ class User {
         updated_at: new Date()
       };
       
-      console.log('Inserting user document:', { ...userDocument, password: '[HASHED]' });
       const result = await MongoDB.insertOne('users', userDocument);
-      console.log('MongoDB insert result:', result);
       
       // Return user without password
       const user = {
@@ -35,7 +31,6 @@ class User {
         created_at: new Date(),
         updated_at: new Date()
       };
-      console.log('Returning user object:', user);
       return user;
     } catch (error) {
       console.error('User.create error:', error);
@@ -47,7 +42,6 @@ class User {
       });
       
       if (error.code === 11000) { // MongoDB duplicate key error
-        console.log('Duplicate key error detected');
         throw new Error('Email already exists');
       }
       throw error;

@@ -27,7 +27,6 @@ const writeToFile = (level, message, data = null) => {
 
 const logger = {
   info: (message, data = null) => {
-    console.log(formatMessage('INFO', message, data));
     writeToFile('INFO', message, data);
   },
 
@@ -43,7 +42,6 @@ const logger = {
 
   debug: (message, data = null) => {
     if (process.env.DEBUG === 'true') {
-      console.log(formatMessage('DEBUG', message, data));
       writeToFile('DEBUG', message, data);
     }
   },

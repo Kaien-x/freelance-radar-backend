@@ -18,7 +18,6 @@ class MongoDB {
       await this.client.connect();
       this.db = this.client.db('freelance_radar');
       
-      console.log('Connected to MongoDB Atlas');
       return true;
     } catch (error) {
       console.error('MongoDB connection error:', error);
@@ -55,10 +54,8 @@ class MongoDB {
           await collection.createIndex({ user_id: 1, job_match_id: 1 });
         }
         
-        console.log(`Collection ${collectionName} initialized with indexes`);
       }
 
-      console.log('MongoDB collections initialized');
       return true;
     } catch (error) {
       console.error('MongoDB initialization error:', error);
@@ -129,7 +126,6 @@ class MongoDB {
   async close() {
     if (this.client) {
       await this.client.close();
-      console.log('MongoDB connection closed');
     }
   }
 }

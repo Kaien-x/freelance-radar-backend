@@ -40,9 +40,6 @@ const updateSkills = asyncHandler(async (req, res) => {
 });
 
 const uploadAvatar = asyncHandler(async (req, res) => {
-  console.log('Request headers:', req.headers);
-  console.log('Request file:', req.file);
-  console.log('Request body:', req.body);
 
   if (!req.file) return error(res, 'No file uploaded', 400);
 

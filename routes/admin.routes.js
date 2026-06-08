@@ -8,7 +8,6 @@ const { success } = require('../utils/response.util');
 const asyncHandler = require('../utils/asyncHandler');
 const { getEmailLogs, getEmailStats } = require('../controllers/admin.controller');
 
-console.log('Admin routes initialized');
 //router.use(protect, requireRole('admin'));
 router.get('/stats', asyncHandler(async (req, res) => {
   const [users, jobs, applications] = await Promise.all([
