@@ -1,608 +1,365 @@
+'use strict';
 
-import Parser from 'rss-parser';
-import axios from 'axios';
-import Job from '../models/Job.model.js';
-import logger from '../utils/logger.js';
+const Parser = require('rss-parser');
+const axios  = require('axios');
 
-const REDDIT_COMMUNITIES = [
-  'forhire',
-  'freelance',
-  'WorkOnline',
-  'RemoteJobs',
-  'remotejs',
-  'webdevjobs',
-  'reactjs',
-  'node',
-  'designjobs',
-  'HireaWriter',
-  'Hiring',
+const Job         = require('../models/Job.model');
+const redisClient = require('../utils/redis');
+const logger      = require('../utils/logger');
+const {
+  redditJobsFetched,
+  redditJobsInserted,
+  redditJobsFiltered,
+  redditSyncErrors,
+  spamDetected,
+} = require('../utils/metrics');
+const {
+  getSpamAnalysis,
+  isSpamPost,
+  isForHirePost,
+  detectJobType,
+  detectCategory,
+  extractSkills,
+} = require('../utils/jobFilter');
+
+// ─── Subreddit list ────────────────────────────────────────────────────────────
+
+// Hardcoded fallback — used when DB is empty or unreachable
+const DEFAULT_SUBREDDITS = [
+  // ── Core Freelance Job Boards ──────────────────────────────────────────────
+  'forhire',            // #1 dedicated freelance board — [Hiring]/[For Hire] tags
+  'freelance',          // general freelancing community with job posts
+  'slavelabour',        // quick paid tasks — [Task] tagged posts
+  'hiring',             // general hiring board
+  'WorkOnline',         // remote/online work opportunities (global)
+  'remotejobs',         // remote-only job listings (global)
+  'jobbit',             // structured tech job board with [Hiring] tags
+
+  // ── Web & Software Development ────────────────────────────────────────────
+  'webdev',             // web development hiring posts
+  'webdesign',          // web design client requests
+  'Wordpress',          // WordPress dev/design jobs
+  'shopify',            // Shopify development jobs
+  'gamedev',            // game development jobs
+  'androiddev',         // Android development jobs
+  'iOSProgramming',     // iOS development jobs
+  'unity3d',            // Unity engine jobs
+  'unrealengine',       // Unreal Engine jobs
+  'godot',              // Godot engine jobs
+  'devops',             // DevOps/cloud engineering jobs
+  'netsec',             // cybersecurity/pentesting jobs
+  'ethdev',             // Ethereum/Web3/blockchain development
+
+  // ── Design & Visual Creative ──────────────────────────────────────────────
+  'graphic_design',     // graphic design jobs
+  'logodesign',         // logo & branding commissions
+  'UI_Design',          // UI/UX design jobs
+  'MotionDesign',       // motion graphics jobs
+  'VideoEditing',       // video editing jobs
+  'Filmmakers',         // video production/filmmaking jobs
+  '3Dmodeling',         // 3D modeling jobs
+  'blender',            // Blender 3D paid work
+  'animation',          // animation jobs
+  'artcommissions',     // art commission requests from clients
+  'Illustrators',       // illustration commissions
+  'photography',        // photography hire requests
+
+  // ── Writing & Content ─────────────────────────────────────────────────────
+  'HireaWriter',        // dedicated writing jobs board
+  'copywriting',        // copywriting jobs
+  'freelanceWriters',   // freelance writing job posts
+  'technicalwriting',   // technical writing jobs
+  'content_marketing',  // content marketing jobs
+
+  // ── Audio, Music & Voice ──────────────────────────────────────────────────
+  'VoiceActing',        // voice-over and voice acting paid jobs
+  'sounddesign',        // sound design/SFX jobs
+  'WeAreTheMusicMakers', // music production jobs
+  'podcasting',         // podcast editing/production jobs
+
+  // ── Data, AI & Analytics ─────────────────────────────────────────────────
+  'datascience',        // data science jobs
+  'MachineLearning',    // ML/AI jobs
+  'dataengineering',    // data engineering jobs
+
+  // ── Marketing & Growth ────────────────────────────────────────────────────
+  'DigitalMarketing',   // digital marketing jobs
+  'SEO',                // SEO specialist jobs
+  'socialmedia',        // social media management jobs
+  'PPC',                // paid ads/PPC jobs
+
+  // ── Productivity & Automation ─────────────────────────────────────────────
+  'Excel',              // Excel/VBA automation jobs
+  'sheets',             // Google Sheets automation jobs
+
+  // ── Translation & Language ────────────────────────────────────────────────
+  'translators',        // translation jobs (global, all languages)
+
+  // ── Virtual Assistant & Admin ─────────────────────────────────────────────
+  'VirtualAssistant',   // virtual assistant jobs (global)
+
+  // ── Business & Startups ───────────────────────────────────────────────────
+  'startups',           // startup hiring posts
+  'Entrepreneur',       // entrepreneur hiring posts
 ];
 
-const REDDIT_API_TIMEOUT = 10000; // 10 seconds
-const USER_AGENT =
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0.0.0 Safari/537.36';
+let REDDIT_COMMUNITIES = [];
 
-/**
- * Fetch jobs from a single Reddit community
- * @param {string} subreddit - Subreddit name
- * @param {number} limit - Number of posts to fetch (max 100)
- * @returns {Promise<Array>} - Array of extracted job data
- */
+const loadSubreddits = async () => {
+  if (REDDIT_COMMUNITIES.length) return REDDIT_COMMUNITIES;
 
+  // 1. Try Redis cache (optional — don't let Redis failure block the DB lookup)
+  try {
+    const cached = await redisClient.get('subreddit_list');
+    if (cached) {
+      REDDIT_COMMUNITIES = JSON.parse(cached);
+      return REDDIT_COMMUNITIES;
+    }
+  } catch {
+    logger.warn('Redis unavailable for subreddit cache — falling back to DB');
+  }
 
-const parser = new Parser();
+  // 2. Load from MongoDB, fall back to hardcoded defaults if DB is empty or fails
+  try {
+    const SubredditMeta = require('../models/SubredditMeta');
+    const docs = await SubredditMeta.find().sort({ lastChecked: -1 });
+    REDDIT_COMMUNITIES = docs.length ? docs.map(d => d.name) : DEFAULT_SUBREDDITS;
+    try { await redisClient.setEx('subreddit_list', 3600, JSON.stringify(REDDIT_COMMUNITIES)); } catch {}
+  } catch (e) {
+    logger.error('Failed to load subreddits from DB, using defaults:', e.message);
+    REDDIT_COMMUNITIES = DEFAULT_SUBREDDITS;
+  }
+
+  return REDDIT_COMMUNITIES;
+};
+
+// ─── RSS fetching ──────────────────────────────────────────────────────────────
+
+const REDDIT_API_TIMEOUT = 15000;
+const RSS_PARSER = new Parser();
 
 const fetchRedditCommunity = async (subreddit, limit = 25) => {
   try {
-    //logger.info(`Fetching r/${subreddit} via RSS...`);
-
     const response = await axios.get(
       `https://www.reddit.com/r/${subreddit}/new/.rss`,
       {
         headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0.0.0 Safari/537.36',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0.0.0 Safari/537.36',
           Accept: 'application/atom+xml,application/xml,text/xml,*/*',
         },
-        timeout: 15000,
+        timeout: REDDIT_API_TIMEOUT,
       }
     );
 
-    const feed = await parser.parseString(response.data);
-
+    const feed = await RSS_PARSER.parseString(response.data);
     if (!feed?.items?.length) {
-      logger.warn(`No RSS items found for r/${subreddit}`);
+      logger.warn(`No RSS items for r/${subreddit}`);
       return [];
     }
 
     const posts = feed.items.slice(0, limit).map(item => ({
-      title: item.title || '',
-      selftext:
-        item.contentSnippet ||
-        item.content ||
-        item.summary ||
-        '',
-      url: item.link || '',
-      author: item.author || 'unknown',
+      title:       item.title || '',
+      selftext:    item.contentSnippet || item.content || item.summary || '',
+      url:         item.link || '',
+      author:      item.author || 'unknown',
       created_utc: item.pubDate
         ? Math.floor(new Date(item.pubDate).getTime() / 1000)
         : Math.floor(Date.now() / 1000),
       subreddit,
-      id:
-        item.guid?.split('/').pop() ||
-        item.id ||
-        Math.random().toString(36).slice(2),
-      score: 0,
+      id:          item.guid?.split('/').pop() || item.id || Math.random().toString(36).slice(2),
+      score:       0,
       num_comments: 0,
-      thumbnail: null,
-      permalink: item.link
-        ? new URL(item.link).pathname
-        : '',
+      thumbnail:   null,
+      permalink:   item.link ? new URL(item.link).pathname : '',
     }));
-
-    //logger.info(
-    //  `r/${subreddit}: ${posts.length} RSS posts fetched`
-    //);
 
     return extractJobsFromPosts(posts, subreddit);
   } catch (error) {
-    logger.error(`r/${subreddit} RSS error`, {
-      message: error.message,
-      status: error.response?.status,
-    });
-
+    logger.error(`r/${subreddit} RSS error`, { message: error.message, status: error.response?.status });
     return [];
   }
 };
 
-/**
- * Extract job data from Reddit posts
- * @param {Array} posts - Reddit post objects
- * @param {string} subreddit - Subreddit name
- * @returns {Array} - Extracted job data
- */
-const extractJobsFromPosts = (posts, subreddit) => {
-  return posts
-    .filter(post => {
-      // Filter out stickied posts, deleted content, and non-self posts
-      if (post.stickied || post.removed || !post.selftext || post.author === '[deleted]') {
-        return false;
-      }
+// ─── Post extraction ───────────────────────────────────────────────────────────
 
-      // Only import posts where the author is offering services (for hire) rather than asking for help or hiring someone
+const extractJobsFromPosts = (posts, subreddit) =>
+  posts
+    .filter(post => {
+      if (post.stickied || post.removed || !post.selftext || post.author === '[deleted]') return false;
       return isForHirePost(post);
     })
     .map(post => {
-      const title = post.title || '';
+      const title       = post.title || '';
       const description = post.selftext || '';
 
-      // Detect job type and category from title/description
-      const jobType = detectJobType(title, description);
-      const categories = detectCategory(title, description);
-      const category = Array.isArray(categories)
-        ? categories[0] || 'General'
-        : categories || 'General';
-
-      // Extract potential skills from text
-      const skills = extractSkills(title, description);
-
       return {
-        redditPostId: post.id,
-        title: title.substring(0, 200),
-        description: description.substring(0, 5000), // Limit description length
-        subreddit: subreddit,
-        author: post.author,
-        url: `https://reddit.com${post.permalink}`,
-        permalink: post.permalink,
-        createdAt: new Date(post.created_utc * 1000),
-        upvotes: post.score,
+        redditPostId:  post.id,
+        title:         title.substring(0, 200),
+        description:   description.substring(0, 5000),
+        subreddit,
+        author:        post.author,
+        url:           `https://reddit.com${post.permalink}`,
+        permalink:     post.permalink,
+        createdAt:     new Date(post.created_utc * 1000),
+        upvotes:       post.score,
         commentsCount: post.num_comments,
-        thumbnail: post.thumbnail && post.thumbnail.startsWith('http') ? post.thumbnail : null,
-        tags: skills,
-        jobType: jobType,
-        category: category,
-        source: 'reddit',
-        redditUrl: `https://reddit.com${post.permalink}`,
+        thumbnail:     post.thumbnail?.startsWith('http') ? post.thumbnail : null,
+        tags:          extractSkills(title, description),
+        jobType:       detectJobType(title, description),
+        category:      detectCategory(title, description),
+        source:        'reddit',
+        redditUrl:     `https://reddit.com${post.permalink}`,
+        spamCheckedAt: null,
+        isSpam:        false,
+        spamScore:     0,
+        spamReasons:   [],
       };
     });
-};
 
-/**
- * Determine whether a Reddit post is a "hire" offer
- * Only accept posts with "[hire]" or "[hiring]" in the title
- * @param {Object} post - Reddit post object
- * @returns {boolean}
- */
-const isForHirePost = (post) => {
-  const title = (post.title || '').toLowerCase();
-  return title.includes('[hire]') || title.includes('[hiring]');
-};
+// ─── Main sync ─────────────────────────────────────────────────────────────────
 
-/**
- * Detect job type from title and description
- * @param {string} title - Post title
- * @param {string} description - Post description
- * @returns {string} - Job type
- */
-const detectJobType = (title, description) => {
-  const text = `${title} ${description}`.toLowerCase();
-
-  if (text.includes('freelance') || text.includes('gig')) return 'freelance';
-  if (text.includes('remote') || text.includes('work from home') || text.includes('wfh')) return 'remote';
-  if (text.includes('part-time') || text.includes('part time')) return 'part-time';
-  if (text.includes('full-time') || text.includes('full time')) return 'full-time';
-  if (text.includes('contract') || text.includes('project-based')) return 'contract';
-
-  return 'freelance'; // Default to freelance
-};
-
-/**
- * Detect job category from title and description
- * @param {string} title - Post title
- * @param {string} description - Post description
- * @returns {string} - Detected category
- */
-const detectCategory = (title, description) => {
-  const text = `${title} ${description}`.toLowerCase();
-
-  const matchesKeyword = (text, keyword) => {
-    if (keyword.length <= 3) {
-      const regex = new RegExp(`\\b${keyword}\\b`, 'i');
-      return regex.test(text);
-    }
-    return text.includes(keyword);
-  };
-
-  const categoryMap = [
-    {
-      category: 'Web Development',
-      weight: 1,
-      keywords: [
-        'website', 'web app', 'webapp', 'frontend', 'front-end', 'front end',
-        'backend', 'back-end', 'back end', 'full stack', 'fullstack', 'full-stack',
-        'html', 'css', 'javascript', 'react', 'vue', 'angular', 'next.js', 'nextjs',
-        'nuxt', 'svelte', 'wordpress', 'shopify', 'woocommerce', 'landing page',
-        'web developer', 'web dev', 'php', 'laravel', 'codeigniter', 'web application'
-      ]
-    },
-    {
-      category: 'Mobile Development',
-      weight: 1,
-      keywords: [
-        'mobile app', 'ios app', 'android app', 'react native', 'flutter',
-        'swift', 'kotlin', 'xamarin', 'mobile developer', 'mobile dev',
-        'app development', 'iphone app', 'ipad app', 'android development',
-        'ios development', 'cross platform app'
-      ]
-    },
-    {
-      category: 'Design / UI/UX',
-      weight: 1,
-      keywords: [
-        'ui/ux', 'ui ux', 'ux design', 'ui design', 'figma', 'sketch',
-        'adobe xd', 'graphic design', 'logo design', 'logo creation', 'branding',
-        'illustration', 'photoshop', 'illustrator', 'web design', 'designer',
-        'creative design', 'mockup', 'wireframe', 'prototype', 'visual design',
-        'brand identity', 'print design', 'poster design', 'banner design',
-        'canva', 'indesign', 'typography'
-      ]
-    },
-    {
-      category: 'Data Science / AI',
-      weight: 1.5,
-      keywords: [
-        'machine learning', 'deep learning', 'data science', 'data analyst',
-        'data engineer', 'artificial intelligence', 'natural language processing',
-        'tensorflow', 'pytorch', 'computer vision', 'neural network', 'ai model',
-        'large language model', 'llm', 'gpt', 'nlp', 'predictive model',
-        'data visualization', 'statistical analysis', 'r programming',
-        'pandas', 'numpy', 'scikit', 'jupyter', 'tableau', 'power bi',
-        'business intelligence', 'bi developer', 'data pipeline'
-      ]
-    },
-    {
-      category: 'AI Training / Data Labeling',
-      weight: 2,
-      keywords: [
-        'ai trainer', 'data labeling', 'data annotation', 'image annotation',
-        'dataset', 'rlhf', 'training data', 'annotate', 'ai training',
-        'content moderation', 'image review', 'photo review', 'label images',
-        'label data', 'data collection', 'model training', 'feedback training',
-        'human feedback', 'ai evaluation', 'llm evaluation', 'prompt evaluation'
-      ]
-    },
-    {
-      category: 'DevOps / Cloud',
-      weight: 1.5,
-      keywords: [
-        'devops', 'aws', 'azure', 'gcp', 'google cloud', 'docker', 'kubernetes',
-        'ci/cd', 'cicd', 'terraform', 'ansible', 'cloud infrastructure',
-        'sysadmin', 'server admin', 'linux admin', 'cloud engineer',
-        'cloud architect', 'devsecops', 'jenkins', 'github actions',
-        'cloud migration', 'infrastructure as code', 'site reliability',
-        'sre', 'load balancer', 'nginx', 'apache'
-      ]
-    },
-    {
-      category: 'Database / Backend',
-      weight: 1,
-      keywords: [
-        'postgresql', 'mongodb', 'mysql', 'redis', 'api development',
-        'rest api', 'graphql', 'microservices', 'node.js', 'express.js',
-        'django', 'flask', 'spring boot', 'laravel', 'database design',
-        'database optimization', 'sql server', 'oracle database', 'firebase',
-        'supabase', 'prisma', 'sequelize', 'backend developer', 'api integration',
-        'websocket', 'grpc', 'backend development'
-      ]
-    },
-    {
-      category: 'Data / Automation',
-      weight: 1,
-      keywords: [
-        'excel', 'spreadsheet', 'pdf conversion', 'data extraction',
-        'automation', 'python script', 'web scraping', 'scraping', 'csv',
-        'google sheets', 'data processing', 'data migration', 'etl',
-        'convert pdf', 'pdf to excel', 'pdf to word', 'data cleaning',
-        'data formatting', 'macro', 'vba', 'zapier', 'make.com', 'n8n',
-        'workflow automation', 'task automation', 'rpa', 'selenium',
-        'puppeteer', 'playwright', 'beautifulsoup'
-      ]
-    },
-    {
-      category: 'Blockchain / Web3',
-      weight: 2,
-      keywords: [
-        'blockchain', 'ethereum', 'solidity', 'web3', 'smart contract',
-        'cryptocurrency', 'nft', 'defi', 'dapp', 'solana', 'polygon',
-        'binance smart chain', 'hardhat', 'truffle', 'metamask', 'dao',
-        'tokenomics', 'crypto wallet', 'web3.js', 'ethers.js'
-      ]
-    },
-    {
-      category: 'Content Writing',
-      weight: 1,
-      keywords: [
-        'content writing', 'copywriting', 'blog post', 'article writing',
-        'ghostwriting', 'technical writing', 'content creator', 'proofreading',
-        'copy editor', 'content writer', 'science communicator',
-        'technical communicator', 'newsletter writing', 'social media content',
-        'script writing', 'speech writing', 'grant writing', 'press release',
-        'ebook writing', 'white paper', 'case study writing', 'product description',
-        'creative writing', 'storytelling', 'journalism'
-      ]
-    },
-    {
-      category: 'SEO / Digital Marketing',
-      weight: 1,
-      keywords: [
-        'search engine optimization', 'digital marketing', 'social media marketing',
-        'google ads', 'facebook ads', 'pay per click', 'email marketing',
-        'growth hacking', 'seo audit', 'link building', 'keyword research',
-        'content marketing', 'affiliate marketing', 'influencer marketing',
-        'tiktok marketing', 'instagram marketing', 'youtube marketing',
-        'marketing strategy', 'brand marketing', 'ppc campaign',
-        'conversion rate', 'a/b testing', 'marketing funnel'
-      ]
-    },
-    {
-      category: 'Video / Animation',
-      weight: 1,
-      keywords: [
-        'video editing', 'video production', 'motion graphics', 'after effects',
-        'premiere pro', 'davinci resolve', 'vfx', '3d animation', '2d animation',
-        'animation', 'video creator', 'youtube video', 'short form video',
-        'reels editing', 'tiktok video', 'explainer video', 'whiteboard animation',
-        'character animation', 'blender', 'cinema 4d', 'video ads',
-        'product video', 'documentary', 'video thumbnail'
-      ]
-    },
-    {
-      category: 'Game Development',
-      weight: 1.5,
-      keywords: [
-        'game development', 'unity', 'unreal engine', 'godot', 'game design',
-        'game art', 'game programmer', 'game dev', 'mobile game', 'pc game',
-        'multiplayer game', 'game mechanics', 'level design', 'game ui',
-        'roblox', 'minecraft mod', 'game testing', 'game assets'
-      ]
-    },
-    {
-      category: 'Cybersecurity',
-      weight: 2,
-      keywords: [
-        'cybersecurity', 'penetration testing', 'pentest', 'infosec',
-        'vulnerability assessment', 'ethical hacking', 'security audit',
-        'cyber security', 'bug bounty', 'network security', 'firewall',
-        'security engineer', 'ctf', 'malware analysis', 'reverse engineering',
-        'owasp', 'security testing', 'code review security'
-      ]
-    },
-    {
-      category: 'QA / Testing',
-      weight: 1.5,
-      keywords: [
-        'quality assurance', 'software testing', 'manual testing',
-        'automated testing', 'test cases', 'bug reporting', 'qa engineer',
-        'account testing', 'app testing', 'website testing', 'usability testing',
-        'regression testing', 'selenium testing', 'cypress', 'playwright testing',
-        'test automation', 'qa analyst', 'performance testing', 'load testing'
-      ]
-    },
-    {
-      category: 'Virtual Assistant',
-      weight: 1,
-      keywords: [
-        'virtual assistant', 'admin support', 'administrative assistant',
-        'personal assistant', 'executive assistant', 'calendar management',
-        'email management', 'customer support', 'customer service',
-        'live chat support', 'helpdesk', 'data entry', 'online research',
-        'lead generation', 'cold calling', 'appointment setting'
-      ]
-    },
-    {
-      category: 'E-commerce',
-      weight: 1,
-      keywords: [
-        'ecommerce', 'online store', 'magento', 'amazon seller', 'dropshipping',
-        'product listing', 'etsy', 'ebay', 'amazon fba', 'shopify store',
-        'product photography', 'product research', 'inventory management',
-        'marketplace', 'online marketplace', 'store setup', 'woocommerce store'
-      ]
-    },
-    {
-      category: 'Project Management',
-      weight: 1,
-      keywords: [
-        'project management', 'project manager', 'scrum', 'agile', 'jira',
-        'product manager', 'product management', 'product owner', 'sprint',
-        'roadmap', 'stakeholder', 'trello', 'asana', 'notion', 'monday.com',
-        'delivery manager', 'programme manager', 'pmo'
-      ]
-    },
-  ];
-
-  // Score each category
-  const scores = categoryMap.map(({ category, keywords, weight }) => {
-    const matchCount = keywords.filter(keyword =>
-      matchesKeyword(text, keyword)
-    ).length;
-
-    return {
-      category,
-      score: matchCount * weight
-    };
-  }).filter(item => item.score > 0);
-
-  if (scores.length === 0) return 'General';
-
-  // Sort by score descending
-  scores.sort((a, b) => b.score - a.score);
-
-  const topScore = scores[0].score;
-
-  // Return top category + any within 50% of top score, max 2
-  const topCategories = scores
-    .filter(item => item.score >= topScore * 0.5)
-    .slice(0, 2)
-    .map(item => item.category);
-
-  return topCategories[0] || 'General';
-};
-
-/**
- * Check if a post is likely spam
- * @param {string} title 
- * @param {string} description 
- * @returns {boolean}
- */
-const isSpamPost = (title, description) => {
-  const text = `${title} ${description}`.toLowerCase();
-
-  const spamSignals = [
-    'send a dm', 'dm me first', 'dm beforehand',
-    'algorithmic growth', 'send message first',
-    'whatsapp me', 'earn from home easy',
-    'no experience needed earn', 'make money fast',
-    'looking for 50 people', 'looking for 80 people',
-    'looking for 100 people', 'we will send further details'
-  ];
-
-  return spamSignals.some(signal => text.includes(signal));
-};
-
-/**
- * Extract potential skills from text
- * @param {string} title - Post title
- * @param {string} description - Post description
- * @returns {Array} - Array of detected skills
- */
-const extractSkills = (title, description) => {
-  const text = `${title} ${description}`.toLowerCase();
-
-  const skillKeywords = [
-    'python', 'javascript', 'typescript', 'node.js', 'react', 'vue', 'angular',
-    'java', 'c++', 'c#', '.net', 'php', 'ruby', 'golang', 'rust', 'swift',
-    'kotlin', 'dart', 'flask', 'django', 'spring', 'express', 'fastapi',
-    'postgresql', 'mongodb', 'mysql', 'redis', 'aws', 'azure', 'gcp',
-    'docker', 'kubernetes', 'git', 'linux', 'windows', 'macos',
-    'html', 'css', 'sass', 'tailwind', 'bootstrap', 'webpack', 'vite',
-    'graphql', 'rest', 'api', 'microservices', 'devops', 'ci/cd',
-    'machine learning', 'ai', 'deep learning', 'tensorflow', 'pytorch',
-    'data science', 'analytics', 'sql', 'etl', 'hadoop', 'spark',
-    'android', 'ios', 'react native', 'flutter', 'xamarin',
-    'blockchain', 'ethereum', 'solidity', 'web3', 'crypto',
-    'figma', 'ui/ux', 'design', 'photoshop', 'illustrator',
-    'content writing', 'copywriting', 'seo', 'social media', 'marketing',
-    'project management', 'agile', 'scrum', 'jira',
-  ];
-
-  const skills = [];
-  for (const skill of skillKeywords) {
-    if (text.includes(skill) && !skills.includes(skill)) {
-      skills.push(skill);
-    }
-  }
-
-  return skills.slice(0, 10); // Limit to 10 skills
-};
-
-/**
- * Fetch all Reddit jobs from configured communities
- * @returns {Promise<Object>} - Sync results with counts
- */
 const fetchAllRedditJobs = async () => {
-  logger.info('Starting Reddit job sync...');
+  logger.info('Starting Reddit job sync…');
 
   const syncResults = {
-    startTime: new Date(),
+    startTime:         new Date(),
     communitiesFetched: 0,
-    totalPostsFetched: 0,
-    newJobsCreated: 0,
-    duplicatesSkipped: 0,
-    errors: [],
+    totalPostsFetched:  0,
+    newJobsCreated:     0,
+    spamFiltered:       0,
+    errors:             [],
   };
 
   try {
+    await loadSubreddits();
     const allJobs = [];
 
-    // Fetch from all communities sequentially with delays to avoid rate limiting
     for (const subreddit of REDDIT_COMMUNITIES) {
       try {
-        //logger.info(`Fetching r/${subreddit}...`);
         const jobs = await fetchRedditCommunity(subreddit, 50);
-
-        if (jobs.length > 0) {
+        if (jobs.length) {
           allJobs.push(...jobs);
           syncResults.totalPostsFetched += jobs.length;
         }
-
         syncResults.communitiesFetched++;
-
-        // Rate limiting: wait 1 second between requests
         await new Promise(resolve => setTimeout(resolve, 1000));
       } catch (error) {
-        const errorMsg = `Error fetching r/${subreddit}: ${error.message}`;
-        logger.error(errorMsg);
-        syncResults.errors.push(errorMsg);
+        const msg = `Error fetching r/${subreddit}: ${error.message}`;
+        logger.error(msg);
+        syncResults.errors.push(msg);
       }
     }
 
-    // Process jobs and insert new ones
-    for (const jobData of allJobs) {
+    redditJobsFetched.inc(allJobs.length);
+
+    const BATCH_SIZE = 200;
+    for (let i = 0; i < allJobs.length; i += BATCH_SIZE) {
+      const batch = allJobs.slice(i, i + BATCH_SIZE);
+
+      // Run spam analysis and attach results
+      const cleanBatch = [];
+      for (const job of batch) {
+        const analysis = getSpamAnalysis(job.title, job.description);
+        if (analysis.isSpam) {
+          syncResults.spamFiltered++;
+          redditJobsFiltered.inc();
+        } else {
+          job.spamCheckedAt = new Date();
+          job.spamScore     = analysis.score;
+          job.spamReasons   = analysis.signals;
+          cleanBatch.push(job);
+        }
+      }
+
       try {
-        // Check if job already exists by redditPostId
-        const existingJob = await Job.findOne({ redditPostId: jobData.redditPostId });
-
-        if (existingJob) {
-          syncResults.duplicatesSkipped++;
-          continue;
-        }
-
-        // Skip spam posts
-        if (isSpamPost(jobData.title, jobData.description)) {
-          // Optionally count spam skips (not counted in stats)
-          continue;
-        }
-
-        // Create new job
-        await Job.create(jobData);
-        syncResults.newJobsCreated++;
+        const inserted = await Job.bulkInsert(cleanBatch);
+        redditJobsInserted.inc(inserted);
+        syncResults.newJobsCreated += inserted;
       } catch (error) {
-        const errorMsg = `Error processing Reddit job: ${error.message}`;
-        logger.error(errorMsg);
-        syncResults.errors.push(errorMsg);
+        const msg = `Bulk insert error: ${error.message}`;
+        logger.error(msg);
+        redditSyncErrors.inc();
+        syncResults.errors.push(msg);
       }
     }
 
-    syncResults.endTime = new Date();
+    syncResults.endTime    = new Date();
     syncResults.durationMs = syncResults.endTime - syncResults.startTime;
-
     logger.info('Reddit job sync completed', syncResults);
     return syncResults;
   } catch (error) {
     logger.error('Fatal error during Reddit job sync:', error.message);
-    syncResults.endTime = new Date();
+    syncResults.endTime    = new Date();
     syncResults.durationMs = syncResults.endTime - syncResults.startTime;
     syncResults.errors.push(`Fatal error: ${error.message}`);
     return syncResults;
   }
 };
 
+// ─── Spam reprocess (for cron) ─────────────────────────────────────────────────
+
 /**
- * Get Reddit jobs with pagination and filtering
- * @param {Object} options - Query options
- * @returns {Promise<Object>} - Jobs with pagination info
+ * Re-run spam analysis on jobs inserted in the last `windowMinutes` that haven't
+ * been checked yet.  Marks confirmed spam as closed so they disappear from feeds.
  */
-const getRedditJobs = async (options = {}) => {
-  const {
-    page = 1,
-    limit = 12,
-    subreddit = null,
-    search = null,
-    sortBy = 'newest',
-  } = options;
+const reprocessRecentSpam = async (windowMinutes = 15) => {
+  const since = new Date(Date.now() - windowMinutes * 60 * 1000);
+  const jobs  = await Job.find({
+    source:       'reddit',
+    status:       'open',
+    isSpam:       false,
+    spamCheckedAt: null,
+    createdAt:    { $gte: since },
+  }).lean();
 
-  const query = { source: 'reddit', status: 'open' };
+  if (!jobs.length) return { checked: 0, flagged: 0 };
 
-  // Filter to only get jobs from the last 7 days
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  query.createdAt = { $gte: sevenDaysAgo };
-
-  if (subreddit) {
-    query.subreddit = subreddit;
+  let flagged = 0;
+  for (const job of jobs) {
+    const analysis = getSpamAnalysis(job.title || '', job.description || '');
+    const update = {
+      spamCheckedAt: new Date(),
+      spamScore:     analysis.score,
+      spamReasons:   analysis.signals,
+    };
+    if (analysis.isSpam) {
+      update.isSpam = true;
+      update.status = 'closed';
+      flagged++;
+      spamDetected.inc();
+      logger.info(`Spam flagged: "${job.title}" (score ${analysis.score})`, { signals: analysis.signals });
+    }
+    await Job.findByIdAndUpdate(job._id, update);
   }
 
+  logger.info(`Spam reprocess: checked ${jobs.length}, flagged ${flagged}`);
+  return { checked: jobs.length, flagged };
+};
+
+// ─── Query helpers ─────────────────────────────────────────────────────────────
+
+const getRedditJobs = async (options = {}) => {
+  const { page = 1, limit = 12, subreddit = null, search = null, sortBy = 'newest' } = options;
+
+  const query = {
+    source:  'reddit',
+    status:  'open',
+    isSpam:  { $ne: true },
+    createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+  };
+
+  if (subreddit) query.subreddit = subreddit;
   if (search) {
     query.$or = [
-      { title: { $regex: search, $options: 'i' } },
+      { title:       { $regex: search, $options: 'i' } },
       { description: { $regex: search, $options: 'i' } },
-      { tags: { $in: [new RegExp(search, 'i')] } },
+      { tags:        { $in: [new RegExp(search, 'i')] } },
     ];
   }
 
   const sortMap = {
-    newest: { createdAt: -1 },
-    oldest: { createdAt: 1 },
+    newest:   { createdAt: -1 },
+    oldest:   { createdAt: 1 },
     trending: { upvotes: -1 },
     comments: { commentsCount: -1 },
   };
@@ -617,70 +374,36 @@ const getRedditJobs = async (options = {}) => {
       Job.countDocuments(query),
     ]);
 
-    return {
-      jobs,
-      total,
-      pages: Math.ceil(total / Number(limit)),
-      currentPage: Number(page),
-      pageSize: Number(limit),
-    };
+    return { jobs, total, pages: Math.ceil(total / Number(limit)), currentPage: Number(page), pageSize: Number(limit) };
   } catch (error) {
     logger.error('Error fetching Reddit jobs:', error.message);
     throw error;
   }
 };
 
-/**
- * Get Reddit job statistics
- * @returns {Promise<Object>} - Statistics
- */
 const getRedditStats = async () => {
   try {
-    const [
-      totalJobs,
-      jobsBySubreddit,
-      jobsByType,
-      mostCommonSkills,
-      latestSync,
-    ] = await Promise.all([
+    const [totalJobs, jobsBySubreddit, jobsByType, mostCommonSkills] = await Promise.all([
       Job.countDocuments({ source: 'reddit' }),
-      Job.aggregate([
-        { $match: { source: 'reddit' } },
-        { $group: { _id: '$subreddit', count: { $sum: 1 } } },
-        { $sort: { count: -1 } },
-      ]),
-      Job.aggregate([
-        { $match: { source: 'reddit' } },
-        { $group: { _id: '$jobType', count: { $sum: 1 } } },
-      ]),
-      Job.aggregate([
-        { $match: { source: 'reddit' } },
-        { $unwind: '$tags' },
-        { $group: { _id: '$tags', count: { $sum: 1 } } },
-        { $sort: { count: -1 } },
-        { $limit: 10 },
-      ]),
-      // Get latest sync from logs (if you want to track this)
-      Promise.resolve(new Date()),
+      Job.aggregate([{ $match: { source: 'reddit' } }, { $group: { _id: '$subreddit', count: { $sum: 1 } } }, { $sort: { count: -1 } }]),
+      Job.aggregate([{ $match: { source: 'reddit' } }, { $group: { _id: '$jobType', count: { $sum: 1 } } }]),
+      Job.aggregate([{ $match: { source: 'reddit' } }, { $unwind: '$tags' }, { $group: { _id: '$tags', count: { $sum: 1 } } }, { $sort: { count: -1 } }, { $limit: 10 }]),
     ]);
-
-    return {
-      totalJobs,
-      jobsBySubreddit,
-      jobsByType,
-      mostCommonSkills,
-      latestSyncTime: latestSync,
-    };
+    return { totalJobs, jobsBySubreddit, jobsByType, mostCommonSkills, latestSyncTime: new Date() };
   } catch (error) {
     logger.error('Error fetching Reddit stats:', error.message);
     throw error;
   }
 };
 
-export {
+module.exports = {
   fetchAllRedditJobs,
+  reprocessRecentSpam,
   getRedditJobs,
   getRedditStats,
   REDDIT_COMMUNITIES,
+  // re-export pure helpers so controllers can use them without importing jobFilter
+  isSpamPost,
+  getSpamAnalysis,
   detectCategory,
 };

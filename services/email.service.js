@@ -270,4 +270,138 @@ const sendEmailVerificationOTP = (to, name, otp) =>
     { type: 'verification' }
   );
 
-module.exports = { sendEmail, sendWelcomeEmail, sendPasswordResetEmail, sendEmailVerificationOTP };
+// ─── Job match alert ──────────────────────────────────────────────────────────
+
+const sendJobMatchAlert = (to, name, jobs) => {
+  const jobRows = jobs.map(j => {
+    const score = j.matchScore || 0;
+    const scoreColor = score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#6b7280';
+    const url = j.source === 'reddit'
+      ? (j.redditUrl || j.url || '#')
+      : `${process.env.FRONTEND_URL}/jobs/${j._id}`;
+    return `
+    <div style="background:#12072a;border:1px solid #2d1f4e;border-radius:10px;padding:16px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <a href="${url}" target="_blank" style="font-size:14px;font-weight:600;color:#a78bfa;text-decoration:none;flex:1;margin-right:12px;">${j.title}</a>
+        <span style="font-size:12px;font-weight:700;color:${scoreColor};white-space:nowrap;">${score}% match</span>
+      </div>
+      <p style="margin:0;font-size:12px;color:#6b7280;">r/${j.subreddit || 'platform'} · ${j.category || 'General'}</p>
+    </div>`;
+  }).join('');
+
+  return sendAndLog(
+    to,
+    `⚡ ${jobs.length} new job match${jobs.length > 1 ? 'es' : ''} for you`,
+    `
+<div style="margin:0;padding:0;background:#06030f;width:100%;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#06030f;min-height:100vh;">
+  <tr><td align="center" style="padding:40px 16px;">
+    <div style="max-width:540px;width:100%;background:#0f0a1e;border-radius:16px;overflow:hidden;border:1px solid #2d1f4e;font-family:sans-serif;">
+      <div style="background:#1a0f2e;padding:24px;text-align:center;border-bottom:1px solid #2d1f4e;">
+        <span style="background:#7c3aed;color:#fff;font-size:17px;font-weight:600;padding:10px 20px;border-radius:10px;">⚡ FreelancerRadar</span>
+      </div>
+      <div style="padding:32px 36px;">
+        <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;color:#ffffff;">New jobs matched to your skills</h1>
+        <p style="margin:0 0 24px;font-size:14px;color:#9ca3af;">Hi ${name}, we found ${jobs.length} new job${jobs.length > 1 ? 's' : ''} that match your profile.</p>
+        ${jobRows}
+        <div style="text-align:center;margin-top:24px;">
+          <a href="${process.env.FRONTEND_URL}/jobs" style="display:inline-block;background:#7c3aed;color:#fff;padding:12px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;">View all jobs</a>
+        </div>
+        <p style="margin:16px 0 0;font-size:11px;color:#4b5563;text-align:center;">To stop these alerts, update your <a href="${process.env.FRONTEND_URL}/settings" style="color:#7c3aed;">notification settings</a>.</p>
+      </div>
+      <div style="background:#12072a;padding:16px 36px;border-top:1px solid #2d1f4e;text-align:center;">
+        <p style="margin:0;font-size:11px;color:#4b5563;">© 2026 FreelancerRadar · Built by Manvendra</p>
+      </div>
+    </div>
+  </td></tr>
+</table>
+</div>`,
+    { type: 'job-alert' }
+  );
+};
+
+// ─── Saved search alert ───────────────────────────────────────────────────────
+
+const sendSavedSearchAlert = (to, name, searchName, jobs) => {
+  const jobRows = jobs.map(j => {
+    const url = j.source === 'reddit'
+      ? (j.redditUrl || j.url || '#')
+      : `${process.env.FRONTEND_URL}/jobs/${j._id}`;
+    return `
+    <div style="background:#12072a;border:1px solid #2d1f4e;border-radius:10px;padding:14px;margin-bottom:8px;">
+      <a href="${url}" target="_blank" style="font-size:14px;font-weight:600;color:#a78bfa;text-decoration:none;">${j.title}</a>
+      <p style="margin:4px 0 0;font-size:12px;color:#6b7280;">${j.category || 'General'} · ${j.source === 'reddit' ? `r/${j.subreddit}` : 'Platform'}</p>
+    </div>`;
+  }).join('');
+
+  return sendAndLog(
+    to,
+    `🔔 New results for saved search: "${searchName}"`,
+    `
+<div style="margin:0;padding:0;background:#06030f;width:100%;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#06030f;min-height:100vh;">
+  <tr><td align="center" style="padding:40px 16px;">
+    <div style="max-width:540px;width:100%;background:#0f0a1e;border-radius:16px;overflow:hidden;border:1px solid #2d1f4e;font-family:sans-serif;">
+      <div style="background:#1a0f2e;padding:24px;text-align:center;border-bottom:1px solid #2d1f4e;">
+        <span style="background:#7c3aed;color:#fff;font-size:17px;font-weight:600;padding:10px 20px;border-radius:10px;">⚡ FreelancerRadar</span>
+      </div>
+      <div style="padding:32px 36px;">
+        <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;color:#ffffff;">New results for "${searchName}"</h1>
+        <p style="margin:0 0 24px;font-size:14px;color:#9ca3af;">Hi ${name}, ${jobs.length} new job${jobs.length > 1 ? 's' : ''} match your saved search.</p>
+        ${jobRows}
+        <div style="text-align:center;margin-top:24px;">
+          <a href="${process.env.FRONTEND_URL}/jobs" style="display:inline-block;background:#7c3aed;color:#fff;padding:12px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;">Run this search</a>
+        </div>
+        <p style="margin:16px 0 0;font-size:11px;color:#4b5563;text-align:center;">To stop these alerts, manage your <a href="${process.env.FRONTEND_URL}/settings" style="color:#7c3aed;">saved searches</a>.</p>
+      </div>
+      <div style="background:#12072a;padding:16px 36px;border-top:1px solid #2d1f4e;text-align:center;">
+        <p style="margin:0;font-size:11px;color:#4b5563;">© 2026 FreelancerRadar · Built by Manvendra</p>
+      </div>
+    </div>
+  </td></tr>
+</table>
+</div>`,
+    { type: 'saved-search-alert' }
+  );
+};
+
+// ─── Feedback admin notification ──────────────────────────────────────────────
+
+const sendFeedbackAdminNotification = (feedback) => {
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER;
+  if (!adminEmail) return Promise.resolve();
+
+  const typeLabel = { bug: '🐛 Bug Report', feature: '💡 Feature Request', feedback: '💬 Feedback', contact: '📩 Contact' }[feedback.type] || 'Submission';
+
+  return sendAndLog(
+    adminEmail,
+    `[FreelancerRadar] ${typeLabel} from ${feedback.name}`,
+    `
+<div style="font-family:sans-serif;max-width:540px;margin:0 auto;background:#0f0a1e;border-radius:12px;border:1px solid #2d1f4e;overflow:hidden;">
+  <div style="background:#1a0f2e;padding:16px 24px;border-bottom:1px solid #2d1f4e;">
+    <p style="margin:0;font-size:13px;color:#a78bfa;font-weight:600;">${typeLabel}</p>
+  </div>
+  <div style="padding:24px;">
+    <p style="margin:0 0 4px;font-size:11px;color:#6b7280;">FROM</p>
+    <p style="margin:0 0 16px;font-size:14px;color:#e5e7eb;">${feedback.name} &lt;${feedback.email}&gt;</p>
+    ${feedback.subject ? `<p style="margin:0 0 4px;font-size:11px;color:#6b7280;">SUBJECT</p><p style="margin:0 0 16px;font-size:14px;color:#e5e7eb;">${feedback.subject}</p>` : ''}
+    <p style="margin:0 0 4px;font-size:11px;color:#6b7280;">MESSAGE</p>
+    <div style="background:#12072a;border:1px solid #2d1f4e;border-radius:8px;padding:14px;">
+      <p style="margin:0;font-size:14px;color:#d1d5db;white-space:pre-wrap;">${feedback.message}</p>
+    </div>
+    ${feedback.page ? `<p style="margin:12px 0 0;font-size:11px;color:#4b5563;">Submitted from: ${feedback.page}</p>` : ''}
+  </div>
+</div>`,
+    { type: 'feedback' }
+  );
+};
+
+module.exports = {
+  sendEmail,
+  sendWelcomeEmail,
+  sendPasswordResetEmail,
+  sendEmailVerificationOTP,
+  sendJobMatchAlert,
+  sendSavedSearchAlert,
+  sendFeedbackAdminNotification,
+};

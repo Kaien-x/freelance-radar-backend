@@ -26,6 +26,11 @@ app.use('/api/applications', require('./routes/application.routes'));
 app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
 app.use('/api/check-apis', require('./routes/check-api'));
+app.use('/api/feedback', require('./routes/feedback.routes'));
+app.use('/api/saved-searches', require('./routes/savedSearch.routes'));
+
+// Public stats endpoint
+app.use('/api/stats', require('./routes/stats.routes'));
 // Waitlist (public and admin)
 const waitlistRoutes = require('./routes/waitlist.routes');
 app.use('/api/waitlist', waitlistRoutes.public);
@@ -47,7 +52,7 @@ mongoose.connect(process.env.MONGODB_URI)
     logger.info('MongoDB connected');
 
     try {
-      const cronExpression = process.env.REDDIT_CRON_EXPRESSION || '*/15 * * * *';
+      const cronExpression = process.env.REDDIT_CRON_EXPRESSION || '*/5 * * * *';
 
       initCronJob(cronExpression);
 

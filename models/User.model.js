@@ -41,6 +41,13 @@ const userSchema = new mongoose.Schema({
   website:  { type: String, default: '' },
   social:   { linkedin: String, github: String, twitter: String },
   plan:     { type: String, enum: ['free', 'pro', 'agency'], default: 'free' },
+
+  // Notification preferences
+  emailAlerts: {
+    jobMatches:    { type: Boolean, default: false },
+    savedSearches: { type: Boolean, default: true },
+    applications:  { type: Boolean, default: true },
+  },
 }, { timestamps: true });
 
 // Hash password before save (only if set and modified)

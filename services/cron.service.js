@@ -1,73 +1,216 @@
-const cron = require('node-cron');
-const { fetchAllRedditJobs } = require('./reddit.service');
+'use strict';
+
+const cron   = require('node-cron');
 const logger = require('../utils/logger');
+const { matchingRuns, savedSearchAlerts } = require('../utils/metrics');
+
+// ─── Lazy imports (avoid circular deps at module load time) ───────────────────
+
+const getModels = () => ({
+  Job:         require('../models/Job.model'),
+  User:        require('../models/User.model'),
+  SavedSearch: require('../models/SavedSearch.model'),
+});
+
+const getServices = () => ({
+  fetchAllRedditJobs:  require('./reddit.service').fetchAllRedditJobs,
+  reprocessRecentSpam: require('./reddit.service').reprocessRecentSpam,
+  matchJobsToUser:     require('./ai.service').matchJobsToUser,
+  sendJobMatchAlert:   require('./email.service').sendJobMatchAlert,
+  sendSavedSearchAlert: require('./email.service').sendSavedSearchAlert,
+});
+
+// ─── Task: match new jobs to active users ─────────────────────────────────────
+
+/**
+ * For every active jobseeker who has enabled job-match alerts, score jobs
+ * created in the last `windowMinutes` and send an email for any with
+ * matchScore >= alertThreshold.
+ */
+const matchNewJobsToAllUsers = async (windowMinutes = 6) => {
+  const { Job, User }          = getModels();
+  const { matchJobsToUser, sendJobMatchAlert } = getServices();
+
+  const since = new Date(Date.now() - windowMinutes * 60 * 1000);
+
+  const newJobs = await Job.find({
+    status:    'open',
+    isSpam:    { $ne: true },
+    createdAt: { $gte: since },
+  }).lean();
+
+  if (!newJobs.length) {
+    logger.debug('matchNewJobsToAllUsers: no new jobs in window');
+    return { usersProcessed: 0, alertsSent: 0 };
+  }
+
+  const users = await User.find({
+    role:                     'jobseeker',
+    isActive:                 true,
+    isEmailVerified:          true,
+    'skills.0':               { $exists: true },
+    'emailAlerts.jobMatches': true,
+    plan:                     { $in: ['pro', 'agency'] },
+  }).lean();
+
+  if (!users.length) return { usersProcessed: 0, alertsSent: 0 };
+
+  let alertsSent = 0;
+  const MATCH_THRESHOLD = 65;
+
+  for (const user of users) {
+    try {
+      const scored = matchJobsToUser(user, newJobs).filter(j => j.matchScore >= MATCH_THRESHOLD);
+      if (scored.length === 0) continue;
+
+      await sendJobMatchAlert(user.email, user.name, scored.slice(0, 5));
+      alertsSent++;
+      // Brief pause to avoid hammering the SMTP server
+      await new Promise(r => setTimeout(r, 200));
+    } catch (err) {
+      logger.error(`Job-match alert failed for ${user.email}:`, err.message);
+    }
+  }
+
+  matchingRuns.inc();
+  logger.info(`matchNewJobsToAllUsers: ${users.length} users, ${alertsSent} alerts sent`);
+  return { usersProcessed: users.length, alertsSent };
+};
+
+// ─── Task: saved search notifications ─────────────────────────────────────────
+
+/**
+ * Build a Mongoose query object from a SavedSearch.filters document.
+ */
+const buildSavedSearchQuery = (filters) => {
+  const query = { status: 'open', isSpam: { $ne: true } };
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  query.createdAt = { $gte: sevenDaysAgo };
+
+  if (filters.search) {
+    query.$or = [
+      { title:       { $regex: filters.search, $options: 'i' } },
+      { description: { $regex: filters.search, $options: 'i' } },
+    ];
+  }
+  if (filters.category)        query.category        = { $regex: filters.category, $options: 'i' };
+  if (filters.skills?.length)  query.$or             = [...(query.$or || []), { skills: { $in: filters.skills.map(s => new RegExp(s, 'i')) } }, { tags: { $in: filters.skills.map(s => new RegExp(s, 'i')) } }];
+  if (filters.experienceLevel) query.experienceLevel  = filters.experienceLevel;
+  if (filters.budgetType)      query['budget.type']   = filters.budgetType;
+  if (filters.minBudget)       query['budget.min']    = { $gte: Number(filters.minBudget) };
+  if (filters.maxBudget)       query['budget.max']    = { $lte: Number(filters.maxBudget) };
+  if (filters.source)          query.source           = filters.source;
+  if (filters.subreddit)       query.subreddit        = filters.subreddit;
+
+  return query;
+};
+
+const notifySavedSearches = async (windowMinutes = 6) => {
+  const { Job, User, SavedSearch } = getModels();
+  const { sendSavedSearchAlert }   = getServices();
+
+  const since = new Date(Date.now() - windowMinutes * 60 * 1000);
+
+  const activeSearches = await SavedSearch.find({ notificationsEnabled: true }).lean();
+  if (!activeSearches.length) return { checked: 0, alertsSent: 0 };
+
+  let alertsSent = 0;
+
+  for (const search of activeSearches) {
+    try {
+      const user = await User.findById(search.userId).select('email name isActive isEmailVerified plan').lean();
+      if (!user || !user.isActive || !user.isEmailVerified) continue;
+      if (!['pro', 'agency'].includes(user.plan)) continue;
+
+      const query  = buildSavedSearchQuery(search.filters);
+      query.createdAt = { ...query.createdAt, $gte: since };
+
+      const jobs = await Job.find(query).sort({ createdAt: -1 }).limit(5).lean();
+      if (!jobs.length) continue;
+
+      await sendSavedSearchAlert(user.email, user.name, search.name, jobs);
+      await SavedSearch.findByIdAndUpdate(search._id, { lastNotifiedAt: new Date() });
+      savedSearchAlerts.inc();
+      alertsSent++;
+      await new Promise(r => setTimeout(r, 200));
+    } catch (err) {
+      logger.error(`Saved-search alert failed for search ${search._id}:`, err.message);
+    }
+  }
+
+  logger.info(`notifySavedSearches: ${activeSearches.length} searches checked, ${alertsSent} alerts sent`);
+  return { checked: activeSearches.length, alertsSent };
+};
+
+// ─── Manual trigger ────────────────────────────────────────────────────────────
+
+const triggerSync = async () => {
+  logger.info('Manual sync triggered');
+  const { fetchAllRedditJobs } = getServices();
+  return fetchAllRedditJobs();
+};
+
+// ─── Cron initialization ───────────────────────────────────────────────────────
 
 let cronJob = null;
 
 /**
- * Initialize cron job for Reddit sync
- * Runs every 15 minutes by default
- * Format: cronExpression like "0/15 * * * *" for every 15 minutes
- * Parameters: (minute hour day-of-month month day-of-week)
+ * Run one full cron cycle:
+ *  1. Fetch new Reddit jobs
+ *  2. Re-check recent posts for spam that slipped through initial filter
+ *  3. Match new jobs to users (send alerts where score >= threshold)
+ *  4. Notify saved searches with new matching jobs
  */
-const initCronJob = (cronExpression = '*/15 * * * *') => {
+const runCronCycle = async () => {
+  logger.info('Cron cycle starting…');
+  const { fetchAllRedditJobs, reprocessRecentSpam } = getServices();
+
+  const [syncResult, spamResult, matchResult, savedResult] = await Promise.allSettled([
+    fetchAllRedditJobs(),
+    reprocessRecentSpam(15),
+    matchNewJobsToAllUsers(6),
+    notifySavedSearches(6),
+  ]);
+
+  const summary = {
+    sync:         syncResult.status  === 'fulfilled' ? syncResult.value  : { error: syncResult.reason?.message },
+    spamReprocess: spamResult.status === 'fulfilled' ? spamResult.value  : { error: spamResult.reason?.message },
+    matching:     matchResult.status === 'fulfilled' ? matchResult.value : { error: matchResult.reason?.message },
+    savedSearches: savedResult.status === 'fulfilled' ? savedResult.value : { error: savedResult.reason?.message },
+  };
+
+  logger.info('Cron cycle complete', summary);
+  return summary;
+};
+
+const initCronJob = (cronExpression = '*/5 * * * *') => {
   try {
-    // Validate cron expression
     if (!cron.validate(cronExpression)) {
       throw new Error(`Invalid cron expression: ${cronExpression}`);
     }
 
     cronJob = cron.schedule(cronExpression, async () => {
-      logger.info('Cron job triggered: Starting Reddit job sync');
       try {
-        const results = await fetchAllRedditJobs();
-        logger.info('Cron job completed', results);
-      } catch (error) {
-        logger.error('Cron job failed', error.message);
+        await runCronCycle();
+      } catch (err) {
+        logger.error('Cron cycle failed with unhandled error:', err.message);
       }
     });
 
-    logger.info(`Cron job initialized with expression: ${cronExpression}`);
+    logger.info(`Cron job initialized: "${cronExpression}"`);
     return cronJob;
-  } catch (error) {
-    logger.error('Failed to initialize cron job:', error.message);
-    throw error;
+  } catch (err) {
+    logger.error('Failed to initialize cron job:', err.message);
+    throw err;
   }
 };
 
-/**
- * Start the cron job if it's paused
- */
 const startCronJob = () => {
-  if (cronJob) {
-    cronJob.start();
-    logger.info('Cron job started');
-  }
+  if (cronJob) { cronJob.start(); logger.info('Cron job started'); }
 };
 
-/**
- * Stop/pause the cron job
- */
 const stopCronJob = () => {
-  if (cronJob) {
-    cronJob.stop();
-    logger.info('Cron job stopped');
-  }
-};
-
-/**
- * Manually trigger Reddit job sync (for testing or immediate refresh)
- */
-const triggerSync = async () => {
-  logger.info('Manual sync triggered');
-  try {
-    const results = await fetchAllRedditJobs();
-    logger.info('Manual sync completed', results);
-    return results;
-  } catch (error) {
-    logger.error('Manual sync failed', error.message);
-    throw error;
-  }
+  if (cronJob) { cronJob.stop(); logger.info('Cron job stopped'); }
 };
 
 module.exports = {
@@ -75,4 +218,7 @@ module.exports = {
   startCronJob,
   stopCronJob,
   triggerSync,
+  runCronCycle,
+  matchNewJobsToAllUsers,
+  notifySavedSearches,
 };

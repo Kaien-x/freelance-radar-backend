@@ -41,6 +41,34 @@ const jobSchema = new mongoose.Schema({
   savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   applicationCount: { type: Number, default: 0 },
   views: { type: Number, default: 0 },
+
+  // Spam detection fields
+  isSpam:        { type: Boolean, default: false },
+  spamScore:     { type: Number,  default: 0 },
+  spamReasons:   [{ type: String }],
+  spamCheckedAt: { type: Date,    default: null },
 }, { timestamps: true });
+
+jobSchema.index({ isSpam: 1, status: 1, createdAt: -1 });
+jobSchema.index({ source: 1, spamCheckedAt: 1 });
+
+/**
+ * Upsert a batch of jobs by redditPostId (deduplication).
+ * Returns the count of genuinely new documents.
+ */
+jobSchema.statics.bulkInsert = async function (jobs) {
+  if (!jobs || jobs.length === 0) return 0;
+
+  const ops = jobs.map(job => ({
+    updateOne: {
+      filter: { redditPostId: job.redditPostId },
+      update: { $setOnInsert: job },
+      upsert: true,
+    },
+  }));
+
+  const result = await this.bulkWrite(ops, { ordered: false });
+  return result.upsertedCount || 0;
+};
 
 module.exports = mongoose.model('Job', jobSchema);

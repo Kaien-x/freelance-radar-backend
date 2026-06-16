@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const optionalAuth = require('../middleware/optionalAuth.middleware');
+const { protect } = require('../middleware/auth.middleware');
+const { requireRole } = require('../middleware/role.middleware');
 const {
   getRedditJobsList,
   getRedditJobById,
@@ -40,7 +42,7 @@ router.get('/sync/status', getSyncStatus);
  * Manually trigger sync (optional - for testing)
  * NOTE: Add authentication/admin check if desired
  */
-router.post('/sync', manualSync);
+router.post('/sync', protect, requireRole('admin'), manualSync);
 
 /**
  * GET /api/jobs/reddit/search

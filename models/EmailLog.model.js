@@ -6,7 +6,7 @@ const emailLogSchema = new mongoose.Schema({
   body:    { type: String, required: true },
   type: {
     type: String,
-    enum: ['verification', 'alert', 'digest', 'reset-password', 'welcome', 'general'],
+    enum: ['verification', 'alert', 'digest', 'reset-password', 'welcome', 'general', 'job-alert', 'saved-search-alert', 'feedback'],
     default: 'general',
   },
   status: {
