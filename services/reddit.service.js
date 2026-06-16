@@ -138,13 +138,16 @@ const loadSubreddits = async () => {
 const REDDIT_API_TIMEOUT = 15000;
 const RSS_PARSER = new Parser();
 
-const fetchRedditCommunity = async (subreddit, limit = 25) => {
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const fetchRedditCommunity = async (subreddit, limit = 25, attempt = 1) => {
   try {
     const response = await axios.get(
       `https://www.reddit.com/r/${subreddit}/new/.rss`,
       {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/137.0.0.0 Safari/537.36',
+          // Identify as an RSS reader — more honest and less likely to be blocked
+          'User-Agent': 'FreelancerRadar/1.0 RSS aggregator (contact: support@freelancerradar.com)',
           Accept: 'application/atom+xml,application/xml,text/xml,*/*',
         },
         timeout: REDDIT_API_TIMEOUT,
@@ -174,8 +177,24 @@ const fetchRedditCommunity = async (subreddit, limit = 25) => {
     }));
 
     return extractJobsFromPosts(posts, subreddit);
-  } catch (error) {
-    logger.error(`r/${subreddit} RSS error`, { message: error.message, status: error.response?.status });
+  } catch (err) {
+    const status = err.response?.status;
+
+    // 429 — Reddit is rate-limiting us; back off and retry once
+    if (status === 429 && attempt === 1) {
+      const retryAfter = parseInt(err.response?.headers?.['retry-after'] || '30', 10);
+      const waitMs = Math.max(retryAfter * 1000, 30000); // at least 30s
+      logger.warn(`r/${subreddit} rate limited — waiting ${waitMs / 1000}s before retry`);
+      await sleep(waitMs);
+      return fetchRedditCommunity(subreddit, limit, 2);
+    }
+
+    // Only log as ERROR for unexpected failures; 429 after retry is just a warn
+    if (status === 429) {
+      logger.warn(`r/${subreddit} still rate limited after retry — skipping this cycle`);
+    } else {
+      logger.error(`r/${subreddit} RSS error`, { message: err.message, status });
+    }
     return [];
   }
 };
@@ -242,7 +261,8 @@ const fetchAllRedditJobs = async () => {
           syncResults.totalPostsFetched += jobs.length;
         }
         syncResults.communitiesFetched++;
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // 2–3 second delay with jitter — avoids Reddit's bot detection pattern
+        await sleep(2000 + Math.floor(Math.random() * 1000));
       } catch (error) {
         const msg = `Error fetching r/${subreddit}: ${error.message}`;
         logger.error(msg);

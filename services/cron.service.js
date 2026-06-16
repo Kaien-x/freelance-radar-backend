@@ -183,7 +183,7 @@ const runCronCycle = async () => {
   return summary;
 };
 
-const initCronJob = (cronExpression = '*/5 * * * *') => {
+const initCronJob = (cronExpression = '*/10 * * * *') => {
   try {
     if (!cron.validate(cronExpression)) {
       throw new Error(`Invalid cron expression: ${cronExpression}`);

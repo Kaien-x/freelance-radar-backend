@@ -110,6 +110,7 @@ const googleAuth = async (req, res) => {
     }
 
     // 3. Create new user if still not found
+    let isNewUser = false;
     if (!user) {
       const assignedRole = ['jobseeker', 'jobposter'].includes(role)
         ? role
@@ -129,9 +130,17 @@ const googleAuth = async (req, res) => {
         isEmailVerified: true,
         isActive: true,
       });
+      isNewUser = true;
     }
 
     if (!user.isActive) return error(res, 'Account has been deactivated', 401);
+
+    // Send welcome email for first-time Google sign-ups
+    if (isNewUser) {
+      sendWelcomeEmail(user.email, user.name).catch((err) =>
+        console.error('Welcome email (Google) failed:', err.message)
+      );
+    }
 
     // 4. Issue JWT
     const token = generateToken(user._id);
