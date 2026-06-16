@@ -52,12 +52,12 @@ mongoose.connect(process.env.MONGODB_URI)
     logger.info('MongoDB connected');
 
     try {
-      const cronExpression = process.env.REDDIT_CRON_EXPRESSION || '*/5 * * * *';
+      const cronExpression = process.env.REDDIT_CRON_EXPRESSION || '*/15 * * * *';
 
       initCronJob(cronExpression);
 
-      // Run immediately when server starts
-      //await triggerSync();
+      // Run immediately on startup, then cron handles subsequent runs
+      triggerSync().catch(err => logger.error('Initial sync failed:', err.message));
 
       logger.info(`Reddit sync cron job initialized: ${cronExpression}`);
     } catch (cronError) {

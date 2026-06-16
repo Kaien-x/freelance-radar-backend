@@ -153,6 +153,7 @@ const triggerSync = async () => {
 // ─── Cron initialization ───────────────────────────────────────────────────────
 
 let cronJob = null;
+let isCycleRunning = false;
 
 /**
  * Run one full cron cycle:
@@ -162,6 +163,14 @@ let cronJob = null;
  *  4. Notify saved searches with new matching jobs
  */
 const runCronCycle = async () => {
+  // Prevent overlapping cycles — if retries push a cycle past the cron interval,
+  // skip the next tick rather than doubling the request load on Reddit
+  if (isCycleRunning) {
+    logger.warn('Cron cycle skipped — previous cycle still running');
+    return;
+  }
+
+  isCycleRunning = true;
   logger.info('Cron cycle starting…');
   const { fetchAllRedditJobs, reprocessRecentSpam } = getServices();
 
@@ -179,11 +188,12 @@ const runCronCycle = async () => {
     savedSearches: savedResult.status === 'fulfilled' ? savedResult.value : { error: savedResult.reason?.message },
   };
 
+  isCycleRunning = false;
   logger.info('Cron cycle complete', summary);
   return summary;
 };
 
-const initCronJob = (cronExpression = '*/10 * * * *') => {
+const initCronJob = (cronExpression = '*/15 * * * *') => {
   try {
     if (!cron.validate(cronExpression)) {
       throw new Error(`Invalid cron expression: ${cronExpression}`);

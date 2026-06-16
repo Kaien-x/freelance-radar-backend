@@ -25,82 +25,38 @@ const {
 // ─── Subreddit list ────────────────────────────────────────────────────────────
 
 // Hardcoded fallback — used when DB is empty or unreachable
+// Kept to ~20 dedicated job-posting subs to stay under Reddit's rate limit.
+// Discussion subs (r/datascience, r/blender, etc.) rarely have client hiring posts.
 const DEFAULT_SUBREDDITS = [
-  // ── Core Freelance Job Boards ──────────────────────────────────────────────
-  'forhire',            // #1 dedicated freelance board — [Hiring]/[For Hire] tags
-  'freelance',          // general freelancing community with job posts
-  'slavelabour',        // quick paid tasks — [Task] tagged posts
-  'hiring',             // general hiring board
-  'WorkOnline',         // remote/online work opportunities (global)
-  'remotejobs',         // remote-only job listings (global)
-  'jobbit',             // structured tech job board with [Hiring] tags
+  // ── Dedicated freelance job boards (highest signal) ───────────────────────
+  'forhire',          // #1 — structured [Hiring]/[For Hire] tag system
+  'slavelabour',      // quick paid tasks, [Task] tagged
+  'freelance',        // general freelance community with job posts
+  'hiring',           // general hiring board
+  'WorkOnline',       // remote/online work (global)
+  'jobbit',           // tech job board with [Hiring] tags
+  'HireaWriter',      // dedicated writing jobs board
 
-  // ── Web & Software Development ────────────────────────────────────────────
-  'webdev',             // web development hiring posts
-  'webdesign',          // web design client requests
-  'Wordpress',          // WordPress dev/design jobs
-  'shopify',            // Shopify development jobs
-  'gamedev',            // game development jobs
-  'androiddev',         // Android development jobs
-  'iOSProgramming',     // iOS development jobs
-  'unity3d',            // Unity engine jobs
-  'unrealengine',       // Unreal Engine jobs
-  'godot',              // Godot engine jobs
-  'devops',             // DevOps/cloud engineering jobs
-  'netsec',             // cybersecurity/pentesting jobs
-  'ethdev',             // Ethereum/Web3/blockchain development
+  // ── Creative commissions (client posts dominate) ──────────────────────────
+  'artcommissions',   // art commissions from clients
+  'Illustrators',     // illustration commissions
+  'logodesign',       // logo & branding client requests
+  'VideoEditing',     // video editing client jobs
+  'VoiceActing',      // voice-over paid jobs
 
-  // ── Design & Visual Creative ──────────────────────────────────────────────
-  'graphic_design',     // graphic design jobs
-  'logodesign',         // logo & branding commissions
-  'UI_Design',          // UI/UX design jobs
-  'MotionDesign',       // motion graphics jobs
-  'VideoEditing',       // video editing jobs
-  'Filmmakers',         // video production/filmmaking jobs
-  '3Dmodeling',         // 3D modeling jobs
-  'blender',            // Blender 3D paid work
-  'animation',          // animation jobs
-  'artcommissions',     // art commission requests from clients
-  'Illustrators',       // illustration commissions
-  'photography',        // photography hire requests
+  // ── Tech (has real [Hiring] posts mixed in) ───────────────────────────────
+  'webdev',           // web dev hiring posts
+  'Wordpress',        // WordPress client jobs
+  'shopify',          // Shopify client jobs
+  'gamedev',          // game dev freelance jobs
+  'ethdev',           // Web3/blockchain jobs
 
-  // ── Writing & Content ─────────────────────────────────────────────────────
-  'HireaWriter',        // dedicated writing jobs board
-  'copywriting',        // copywriting jobs
-  'freelanceWriters',   // freelance writing job posts
-  'technicalwriting',   // technical writing jobs
-  'content_marketing',  // content marketing jobs
+  // ── Writing & Marketing ───────────────────────────────────────────────────
+  'copywriting',      // copywriting client jobs
+  'SEO',              // SEO freelance jobs
 
-  // ── Audio, Music & Voice ──────────────────────────────────────────────────
-  'VoiceActing',        // voice-over and voice acting paid jobs
-  'sounddesign',        // sound design/SFX jobs
-  'WeAreTheMusicMakers', // music production jobs
-  'podcasting',         // podcast editing/production jobs
-
-  // ── Data, AI & Analytics ─────────────────────────────────────────────────
-  'datascience',        // data science jobs
-  'MachineLearning',    // ML/AI jobs
-  'dataengineering',    // data engineering jobs
-
-  // ── Marketing & Growth ────────────────────────────────────────────────────
-  'DigitalMarketing',   // digital marketing jobs
-  'SEO',                // SEO specialist jobs
-  'socialmedia',        // social media management jobs
-  'PPC',                // paid ads/PPC jobs
-
-  // ── Productivity & Automation ─────────────────────────────────────────────
-  'Excel',              // Excel/VBA automation jobs
-  'sheets',             // Google Sheets automation jobs
-
-  // ── Translation & Language ────────────────────────────────────────────────
-  'translators',        // translation jobs (global, all languages)
-
-  // ── Virtual Assistant & Admin ─────────────────────────────────────────────
-  'VirtualAssistant',   // virtual assistant jobs (global)
-
-  // ── Business & Startups ───────────────────────────────────────────────────
-  'startups',           // startup hiring posts
-  'Entrepreneur',       // entrepreneur hiring posts
+  // ── VA & Admin ────────────────────────────────────────────────────────────
+  'VirtualAssistant', // VA client jobs (global)
 ];
 
 let REDDIT_COMMUNITIES = [];
@@ -140,13 +96,13 @@ const RSS_PARSER = new Parser();
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Returns { jobs: Job[], rateLimited: boolean }
 const fetchRedditCommunity = async (subreddit, limit = 25, attempt = 1) => {
   try {
     const response = await axios.get(
       `https://www.reddit.com/r/${subreddit}/new/.rss`,
       {
         headers: {
-          // Identify as an RSS reader — more honest and less likely to be blocked
           'User-Agent': 'FreelancerRadar/1.0 RSS aggregator (contact: support@freelancerradar.com)',
           Accept: 'application/atom+xml,application/xml,text/xml,*/*',
         },
@@ -157,7 +113,7 @@ const fetchRedditCommunity = async (subreddit, limit = 25, attempt = 1) => {
     const feed = await RSS_PARSER.parseString(response.data);
     if (!feed?.items?.length) {
       logger.warn(`No RSS items for r/${subreddit}`);
-      return [];
+      return { jobs: [], rateLimited: false };
     }
 
     const posts = feed.items.slice(0, limit).map(item => ({
@@ -176,26 +132,26 @@ const fetchRedditCommunity = async (subreddit, limit = 25, attempt = 1) => {
       permalink:   item.link ? new URL(item.link).pathname : '',
     }));
 
-    return extractJobsFromPosts(posts, subreddit);
+    return { jobs: extractJobsFromPosts(posts, subreddit), rateLimited: false };
   } catch (err) {
     const status = err.response?.status;
 
-    // 429 — Reddit is rate-limiting us; back off and retry once
+    // 429 — back off and retry once
     if (status === 429 && attempt === 1) {
       const retryAfter = parseInt(err.response?.headers?.['retry-after'] || '30', 10);
-      const waitMs = Math.max(retryAfter * 1000, 30000); // at least 30s
+      const waitMs = Math.max(retryAfter * 1000, 30000);
       logger.warn(`r/${subreddit} rate limited — waiting ${waitMs / 1000}s before retry`);
       await sleep(waitMs);
       return fetchRedditCommunity(subreddit, limit, 2);
     }
 
-    // Only log as ERROR for unexpected failures; 429 after retry is just a warn
     if (status === 429) {
       logger.warn(`r/${subreddit} still rate limited after retry — skipping this cycle`);
-    } else {
-      logger.error(`r/${subreddit} RSS error`, { message: err.message, status });
+      return { jobs: [], rateLimited: true };
     }
-    return [];
+
+    logger.error(`r/${subreddit} RSS error`, { message: err.message, status });
+    return { jobs: [], rateLimited: false };
   }
 };
 
@@ -252,17 +208,31 @@ const fetchAllRedditJobs = async () => {
   try {
     await loadSubreddits();
     const allJobs = [];
+    let consecutiveRateLimits = 0;
 
     for (const subreddit of REDDIT_COMMUNITIES) {
+      // Circuit breaker — 3 consecutive rate limits after retries means our IP is
+      // throttled for this cycle; stop early rather than burning 30s × remaining subs
+      if (consecutiveRateLimits >= 3) {
+        logger.warn('Rate limit circuit breaker triggered — skipping remaining subreddits this cycle');
+        break;
+      }
+
       try {
-        const jobs = await fetchRedditCommunity(subreddit, 50);
-        if (jobs.length) {
-          allJobs.push(...jobs);
-          syncResults.totalPostsFetched += jobs.length;
+        const { jobs, rateLimited } = await fetchRedditCommunity(subreddit, 50);
+
+        if (rateLimited) {
+          consecutiveRateLimits++;
+        } else {
+          consecutiveRateLimits = 0;
+          if (jobs.length) {
+            allJobs.push(...jobs);
+            syncResults.totalPostsFetched += jobs.length;
+          }
+          syncResults.communitiesFetched++;
+          // 2–3 second delay with jitter — avoids Reddit's bot detection pattern
+          await sleep(2000 + Math.floor(Math.random() * 1000));
         }
-        syncResults.communitiesFetched++;
-        // 2–3 second delay with jitter — avoids Reddit's bot detection pattern
-        await sleep(2000 + Math.floor(Math.random() * 1000));
       } catch (error) {
         const msg = `Error fetching r/${subreddit}: ${error.message}`;
         logger.error(msg);
