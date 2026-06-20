@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/User.model');
+const ActivityLog = require('../models/ActivityLog.model');
 const { verifyGoogleToken } = require('../services/googleOAuth.service');
 const { sendWelcomeEmail, sendPasswordResetEmail, sendEmailVerificationOTP } = require('../services/email.service');
 const { success, error } = require('../utils/response.util');
@@ -142,7 +143,8 @@ const googleAuth = async (req, res) => {
       );
     }
 
-    // 4. Issue JWT
+    // 4. Issue JWT + log login event
+    ActivityLog.create({ user: user._id, event: 'login', meta: { method: 'google' } }).catch(() => {});
     const token = generateToken(user._id);
     return success(res, { user, token }, 'Google authentication successful');
   } catch (err) {
@@ -287,6 +289,7 @@ const login = async (req, res) => {
     if (!user.isActive)
       return error(res, 'Account has been deactivated', 401);
 
+    ActivityLog.create({ user: user._id, event: 'login', meta: { method: 'email' } }).catch(() => {});
     const token = generateToken(user._id);
     return success(res, { user, token }, 'Login successful');
   } catch (err) {

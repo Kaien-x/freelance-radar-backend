@@ -27,6 +27,7 @@ app.use('/api/users', require('./routes/user.routes'));
 app.use('/api/admin', require('./routes/admin.routes'));
 app.use('/api/check-apis', require('./routes/check-api'));
 app.use('/api/feedback', require('./routes/feedback.routes'));
+app.use('/api/activity', require('./routes/activity.routes'));
 app.use('/api/saved-searches', require('./routes/savedSearch.routes'));
 
 // Public stats endpoint
