@@ -365,6 +365,64 @@ const sendSavedSearchAlert = (to, name, searchName, jobs) => {
   );
 };
 
+// ─── Weekly digest (free plan) ────────────────────────────────────────────────
+
+const sendWeeklyDigest = (to, name, jobs, userId = null) => {
+  const jobRows = jobs.map(j => {
+    const score = j.matchScore || 0;
+    const scoreColor = score >= 80 ? '#22c55e' : score >= 60 ? '#f59e0b' : '#6b7280';
+    const url = j.source === 'reddit'
+      ? (j.redditUrl || j.url || '#')
+      : `${process.env.FRONTEND_URL}/jobs/${j._id}`;
+    const ageDays = Math.max(0, Math.floor((Date.now() - new Date(j.createdAt).getTime()) / 86400000));
+    const ageLabel = ageDays === 0 ? 'today' : ageDays === 1 ? '1 day ago' : `${ageDays} days ago`;
+    return `
+    <div style="background:#12072a;border:1px solid #2d1f4e;border-radius:10px;padding:16px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <a href="${url}" target="_blank" style="font-size:14px;font-weight:600;color:#a78bfa;text-decoration:none;flex:1;margin-right:12px;">${j.title}</a>
+        <span style="font-size:12px;font-weight:700;color:${scoreColor};white-space:nowrap;">${score}% match</span>
+      </div>
+      <p style="margin:0;font-size:12px;color:#6b7280;">r/${j.subreddit || 'platform'} · ${j.category || 'General'} · posted ${ageLabel}</p>
+    </div>`;
+  }).join('');
+
+  return sendAndLog(
+    to,
+    `📬 Your weekly job matches — ${jobs.length} job${jobs.length > 1 ? 's' : ''} picked for you`,
+    `
+<div style="margin:0;padding:0;background:#06030f;width:100%;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#06030f;min-height:100vh;">
+  <tr><td align="center" style="padding:40px 16px;">
+    <div style="max-width:540px;width:100%;background:#0f0a1e;border-radius:16px;overflow:hidden;border:1px solid #2d1f4e;font-family:sans-serif;">
+      <div style="background:#1a0f2e;padding:24px;text-align:center;border-bottom:1px solid #2d1f4e;">
+        <span style="background:#7c3aed;color:#fff;font-size:17px;font-weight:600;padding:10px 20px;border-radius:10px;">⚡ FreelancerRadar</span>
+      </div>
+      <div style="padding:32px 36px;">
+        <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;color:#ffffff;">Your weekly matches</h1>
+        <p style="margin:0 0 24px;font-size:14px;color:#9ca3af;">Hi ${name}, here are this week's best jobs matched to your skills.</p>
+        ${jobRows}
+        <div style="text-align:center;margin-top:24px;">
+          <a href="${process.env.FRONTEND_URL}/jobs" style="display:inline-block;background:#7c3aed;color:#fff;padding:12px 32px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;">See all jobs</a>
+        </div>
+        <div style="background:rgba(124,58,237,0.08);border:1px solid #2d1f4e;border-radius:10px;padding:14px 16px;margin-top:24px;">
+          <p style="margin:0;font-size:12px;color:#9ca3af;line-height:1.6;text-align:center;">
+            ⚡ Pro users got these matches <strong style="color:#a78bfa;">the moment they were posted</strong> — not days later.<br/>
+            <a href="${process.env.FRONTEND_URL}/settings" style="color:#7c3aed;font-weight:600;">Join the Pro waitlist →</a>
+          </p>
+        </div>
+        <p style="margin:16px 0 0;font-size:11px;color:#4b5563;text-align:center;">Don't want the weekly digest? Turn it off in <a href="${process.env.FRONTEND_URL}/settings" style="color:#7c3aed;">settings</a>.</p>
+      </div>
+      <div style="background:#12072a;padding:16px 36px;border-top:1px solid #2d1f4e;text-align:center;">
+        <p style="margin:0;font-size:11px;color:#4b5563;">© 2026 FreelancerRadar · Built by Manvendra</p>
+      </div>
+    </div>
+  </td></tr>
+</table>
+</div>`,
+    { type: 'weekly-digest', userId }
+  );
+};
+
 // ─── Feedback admin notification ──────────────────────────────────────────────
 
 const sendFeedbackAdminNotification = (feedback) => {
@@ -403,5 +461,6 @@ module.exports = {
   sendEmailVerificationOTP,
   sendJobMatchAlert,
   sendSavedSearchAlert,
+  sendWeeklyDigest,
   sendFeedbackAdminNotification,
 };

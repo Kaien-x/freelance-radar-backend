@@ -166,10 +166,11 @@ const getMe = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const updates = req.body;
-    delete updates.password;
-    delete updates.role;
-    delete updates.email;
-    delete updates.googleId;
+    // Fields a user must never set on themselves (plan is the paid gate)
+    ['password', 'role', 'email', 'googleId', 'plan',
+     'isActive', 'isEmailVerified', 'emailVerificationOtp', 'emailVerificationExpires',
+     'passwordResetToken', 'passwordResetExpires', 'weeklyDigestLastSentAt',
+    ].forEach(key => delete updates[key]);
 
     const user = await User.findByIdAndUpdate(
       req.user._id,

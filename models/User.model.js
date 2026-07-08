@@ -44,10 +44,12 @@ const userSchema = new mongoose.Schema({
 
   // Notification preferences
   emailAlerts: {
-    jobMatches:    { type: Boolean, default: false },
+    jobMatches:    { type: Boolean, default: false },  // instant alerts — Pro only
+    weeklyDigest:  { type: Boolean, default: true },   // weekly matched-jobs email — free
     savedSearches: { type: Boolean, default: true },
     applications:  { type: Boolean, default: true },
   },
+  weeklyDigestLastSentAt: { type: Date, default: null },
 }, { timestamps: true });
 
 // Hash password before save (only if set and modified)

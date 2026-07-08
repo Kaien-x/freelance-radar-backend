@@ -18,6 +18,7 @@ const getServices = () => ({
   matchJobsToUser:     require('./ai.service').matchJobsToUser,
   sendJobMatchAlert:   require('./email.service').sendJobMatchAlert,
   sendSavedSearchAlert: require('./email.service').sendSavedSearchAlert,
+  sendWeeklyDigest:    require('./email.service').sendWeeklyDigest,
 });
 
 // ─── Task: match new jobs to active users ─────────────────────────────────────
@@ -142,6 +143,69 @@ const notifySavedSearches = async (windowMinutes = 6) => {
   return { checked: activeSearches.length, alertsSent };
 };
 
+// ─── Task: weekly digest (free plan) ──────────────────────────────────────────
+
+/**
+ * Send every eligible free user their top job matches from the last 7 days.
+ * Eligible: active verified jobseeker with skills and weeklyDigest enabled,
+ * not already sent a digest in the last 6 days (guards against double-sends
+ * if the server restarts on digest day).
+ */
+const sendWeeklyDigests = async () => {
+  const { Job, User } = getModels();
+  const { matchJobsToUser, sendWeeklyDigest } = getServices();
+
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const sixDaysAgo   = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000);
+
+  const weekJobs = await Job.find({
+    status:    'open',
+    isSpam:    { $ne: true },
+    createdAt: { $gte: sevenDaysAgo },
+  }).lean();
+
+  if (!weekJobs.length) {
+    logger.info('sendWeeklyDigests: no jobs this week, skipping');
+    return { usersProcessed: 0, digestsSent: 0 };
+  }
+
+  const users = await User.find({
+    role:            'jobseeker',
+    isActive:        true,
+    isEmailVerified: true,
+    'skills.0':      { $exists: true },
+    'emailAlerts.weeklyDigest': { $ne: false },
+    $or: [
+      { weeklyDigestLastSentAt: null },
+      { weeklyDigestLastSentAt: { $lt: sixDaysAgo } },
+    ],
+  }).lean();
+
+  if (!users.length) return { usersProcessed: 0, digestsSent: 0 };
+
+  const DIGEST_THRESHOLD = 40; // lenient — weekly digest should rarely be empty
+  let digestsSent = 0;
+
+  for (const user of users) {
+    try {
+      const scored = matchJobsToUser(user, weekJobs)
+        .filter(j => j.matchScore >= DIGEST_THRESHOLD)
+        .slice(0, 5);
+      if (!scored.length) continue;
+
+      await sendWeeklyDigest(user.email, user.name, scored, user._id);
+      await User.findByIdAndUpdate(user._id, { weeklyDigestLastSentAt: new Date() });
+      digestsSent++;
+      await new Promise(r => setTimeout(r, 300)); // pace SMTP
+    } catch (err) {
+      logger.error(`Weekly digest failed for ${user.email}:`, err.message);
+    }
+  }
+
+  logger.info(`sendWeeklyDigests: ${users.length} eligible users, ${digestsSent} digests sent`);
+  return { usersProcessed: users.length, digestsSent };
+};
+
 // ─── Manual trigger ────────────────────────────────────────────────────────────
 
 const triggerSync = async () => {
@@ -153,6 +217,7 @@ const triggerSync = async () => {
 // ─── Cron initialization ───────────────────────────────────────────────────────
 
 let cronJob = null;
+let weeklyDigestJob = null;
 let isCycleRunning = false;
 
 /**
@@ -174,11 +239,13 @@ const runCronCycle = async () => {
   logger.info('Cron cycle starting…');
   const { fetchAllRedditJobs, reprocessRecentSpam } = getServices();
 
+  // Windows must cover the full cron interval (15 min) plus a small buffer,
+  // otherwise jobs created between ticks are never matched or alerted
   const [syncResult, spamResult, matchResult, savedResult] = await Promise.allSettled([
     fetchAllRedditJobs(),
-    reprocessRecentSpam(15),
-    matchNewJobsToAllUsers(6),
-    notifySavedSearches(6),
+    reprocessRecentSpam(20),
+    matchNewJobsToAllUsers(16),
+    notifySavedSearches(16),
   ]);
 
   const summary = {
@@ -208,6 +275,23 @@ const initCronJob = (cronExpression = '*/15 * * * *') => {
     });
 
     logger.info(`Cron job initialized: "${cronExpression}"`);
+
+    // Weekly digest — Monday 6:30 PM IST = 9 AM US East / 2 PM UK,
+    // when both audiences are at their inbox. Override with WEEKLY_DIGEST_CRON.
+    const digestExpression = process.env.WEEKLY_DIGEST_CRON || '30 18 * * 1';
+    if (cron.validate(digestExpression)) {
+      weeklyDigestJob = cron.schedule(digestExpression, async () => {
+        try {
+          await sendWeeklyDigests();
+        } catch (err) {
+          logger.error('Weekly digest run failed:', err.message);
+        }
+      });
+      logger.info(`Weekly digest cron initialized: "${digestExpression}"`);
+    } else {
+      logger.error(`Invalid WEEKLY_DIGEST_CRON expression: ${digestExpression}`);
+    }
+
     return cronJob;
   } catch (err) {
     logger.error('Failed to initialize cron job:', err.message);
@@ -231,4 +315,5 @@ module.exports = {
   runCronCycle,
   matchNewJobsToAllUsers,
   notifySavedSearches,
+  sendWeeklyDigests,
 };

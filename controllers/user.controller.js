@@ -11,7 +11,12 @@ const getProfile = asyncHandler(async (req, res) => {
 });
 
 const updateProfile = asyncHandler(async (req, res) => {
-  const forbidden = ['password', 'role', 'email'];
+  // Fields a user must never set on themselves (plan is the paid gate)
+  const forbidden = [
+    'password', 'role', 'email', 'googleId', 'plan',
+    'isActive', 'isEmailVerified', 'emailVerificationOtp', 'emailVerificationExpires',
+    'passwordResetToken', 'passwordResetExpires', 'weeklyDigestLastSentAt',
+  ];
   forbidden.forEach(key => delete req.body[key]);
 
   // Handle nested objects safely
